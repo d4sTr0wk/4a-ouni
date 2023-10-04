@@ -1,6 +1,8 @@
 Dim d1 As Byte
 Dim flagtimer As Bit
+Dim display As Byte
 Dim display1 As Byte
+Dim display2 As Byte
 d1 = 0
 flagtimer = 0
 TRISB = 0x01
@@ -11,12 +13,14 @@ INTCON.GIE = 1
 TRISC = 0
 TRISD = 0
 main:
-	display = d1 / %00001010
+	display = d1 / 10
 	Gosub calculadisplay
-	PORTC = display
-	display = d1 Mod %00001010
+	display1 = display
+	display = d1 Mod 10
 	Gosub calculadisplay
-	PORTD = display
+	display2 = display
+	PORTC = display1
+	PORTD = display2
 	loop:
 		If flagtimer = 1 Then
 			flagtimer = 0
@@ -33,7 +37,7 @@ End
 calculadisplay:
 	Select Case display
 	Case 0
-		display = %00000000
+		display = %00111111
 	Case 1
 		display = %00000110
 	Case 2
@@ -52,12 +56,21 @@ calculadisplay:
 		display = %01111111
 	Case 9
 		display = %01100111
+	EndSelect
 Return                                            
 On Interrupt
+	If INTCON.INTF = 1 Then
+		Toggle INTCON.TMR0IE
+		INTCON.INTF = 0
+	Endif
 	If INTCON.T0IF = 1 Then
-		flagtimer = 1
+		If flagtimer = 0 Then
+			flagtimer = 1
+		Endif
 		TMR0 = 127
 		INTCON.T0IF = 0
 	Endif
 Resume                                            
 	
+
+'oshonsoft_bookmarks_and_breakpoints_info:,371
