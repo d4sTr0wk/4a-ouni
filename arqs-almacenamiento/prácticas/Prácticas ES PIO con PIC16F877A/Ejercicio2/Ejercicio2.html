@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Ejercicio 2: Comparaci&oacute;n de consulta
+peri&oacute;dica y bloqueo de programa</title>
+
+
+</head>
+
+
+<body>
+
+<h1 style="text-align: center;"> <b style=""><span style="font-size: 18pt;"></span></b></h1>
+
+<table style="width: 1098px; height: 155px;" border="0">
+
+  <tbody>
+
+    <tr>
+
+      <td style="width: 21.25px;"><img style="width: 99px; height: 93px;" alt="" src="img/uma.png"><br>
+
+      </td>
+
+      <td style="width: 1164.97px;">
+      <h1 style="text-align: center;"><b style=""><span style="font-size: 18pt;">Ejercicio 2: Comparaci&oacute;n
+de consulta peri&oacute;dica y bloqueo de programa<br>
+
+      </span></b></h1>
+
+      </td>
+
+      <td style="width: 21.25px;"> <img style="width: 99px; height: 93px;" title="dac" src="img/dac.png"> </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<h2>1. Objetivo</h2>
+
+El objetivo de este ejercicio es permitir al alumno, a
+trav&eacute;s de un ejemplo, comprender mejor c&oacute;mo se
+implementa la consulta de estado por consulta peri&oacute;dica y
+por bloqueo de programa, y entender las implicaciones que&nbsp;cada
+una de estas opciones tienen respecto al tiempo de respuesta y a la
+interactividad de una aplicaci&oacute;n.<br>
+
+<br>
+
+En este ejercicio no se pide al alumno desarrollar nuevo
+c&oacute;digo, sino s&oacute;lo usar y analizar el
+c&oacute;digo proporcionado; sin embargo, el alumno
+deber&aacute; esforzarse en entender el funcionamiento de este
+c&oacute;digo porque en el Ejercicio 4 se le exigir&aacute;
+extender la funcionalidad del c&oacute;digo para medir la
+diferencia de tiempos exacta entre la respuesta del sistema en consulta
+peri&oacute;dica y la de bloqueo del programa.<br>
+
+<br>
+
+<br>
+
+<h2>2. Sistema de test</h2>
+
+<br>
+
+Este ejercicio usa tambi&eacute;n un display de 7 segmentos, pero
+emplea como entrada una de las lineas del puerto B, por lo que es
+necesario controlar el display desde el puerto C. La
+configuraci&oacute;n del sistema de pruebas simulado es, entonces,
+la mostrada en la siguiente figura:<br>
+
+<br>
+
+<div style="text-align: center;"><img style="width: 579px; height: 442px;" alt="" src="img/Sistema_de_test.png"><br>
+
+</div>
+
+<p>La configuraci&oacute;n y control del display a
+trav&eacute;s del puerto C es an&aacute;loga a la ya hecha con
+el puerto B, cambiando los registros PORTB y TRISB por PORTC y TRISC.</p>
+
+<p>La configuraci&oacute;n del puerto B, sin embargo, es
+distinta, porque la linea 0 del puerto B (PORTB.0) se va a emplear como
+linea de entrada, por lo que el bit 0 del registro TRISB debe ponerse a
+<span style="font-weight: bold;">1</span> (es decir,
+TRISB.0 = 1).</p>
+
+<br>
+
+<div style="text-align: center;"><img style="width: 382px; height: 435px;" alt="" src="img/captura_pulsador.png"><br>
+
+<br>
+
+</div>
+
+<p>El pulsador externo se implementa usando un programa
+complementario al simulador, llamado <span style="font-style: italic;">PushButton.exe</span>, que
+puede encontrarse (y debe iniciarse) en el directorio <span style="font-style: italic;">C:\Archivos de programa\PIC
+Simulator IDE.<br>
+&nbsp;</span>
+<br>
+Este programa se comunica autom&aacute;ticamente con el simulador
+(usando automatizaci&oacute;n COM), y ofrece un array de 8 pulsadores,
+que pueden configurarse individualmente para conectarse a cualquiera de
+las lineas de E/S digital del PIC16F877A, y que pueden actuarse
+mediante el interfaz gr&aacute;fico o mediante las teclas de
+funci&oacute;n F1 a F8.</p>
+<p>En nuestro caso, como vamos a conectar el interruptor F1 a la linea
+PORTB.0, podemos usar directamente la configuraci&oacute;n por defecto
+de la aplicaci&oacute;n, por lo que no es necesario modificar nada en
+el programa.</p>
+<p><span style="text-decoration: underline;"><span style="font-weight: bold;">IMPORTANTE<span style="text-decoration: underline;">:</span></span><span style="text-decoration: underline;"></span></span>
+El Ejercicio 1 ha dejado el display de 7 segmentos #1 (el de la
+izquierda) conectado al puerto B; como el puerto B se va a emplear
+ahora como entrada, debemos asegurarnos de desactivar dicho display de
+7 segmentos. <a href="img/config_disable_display.htm">Esta animaci&oacute;n</a> muestra el proceso de desactivaci&oacute;n.</p>
+<p></p>
+
+<h2>3. Monitorizaci&oacute;n del estado de las lineas</h2>
+La operaci&oacute;n del pulsador F1 ir&aacute; alternando el estado de la linea PORTB.0 entre el <span style="font-weight: bold;">1</span> l&oacute;gico (tensi&oacute;n +V, color rojo) y el <span style="font-weight: bold;">0</span>
+l&oacute;gico (0V, color verde). Para poder monitorizar, durante la
+ejecuci&oacute;n del programa, el valor al que el pulsador ha puesto a
+la linea PORTB.0 es necesario usar la ventana <span style="font-style: italic;">Microcontroller View</span>, accesible desde el men&uacute; <span style="font-style: italic;">Tools</span> del simulador.<br>
+<br>
+<br>
+
+<div style="text-align: center;"><img style="width: 388px; height: 307px;" alt="" src="img/microcontroller_view.png"><br>
+
+</div>
+
+<br>
+
+<p>N&oacute;tese que el criterio de colores en esta ventana es distinto al de la aplicaci&oacute;n&nbsp;<span style="font-style: italic;">PushButton.exe</span>, puesto que el nivel l&oacute;gico&nbsp;<span style="font-weight: bold;">1</span> (+V) se representa con el color verde, mientras que el&nbsp;<span style="font-weight: bold;">0</span> usa el color gris.</p>
+<br>
+
+<h2>4. Realizaci&oacute;n del ejercicio</h2>
+En este ejercicio se proporcionan al alumno dos programas BASIC
+completos. Ambos programas usan PIO para consultar el estado del
+pulsador, leyendo el valor del registro PORTB, pero los programas
+difieren en la forma de realizar esta lectura:<br>
+<br>
+<ol>
+  <li>El <a href="src/Consulta_periodica.bas">primer programa</a>
+emplea consulta peri&oacute;dica, y entre cada dos consultas
+consecutivas activa y desactiva el punto decimal del display, para dar
+una indicaci&oacute;n visible de actividad.<br>
+    <br>
+  </li>
+  <li>El <a href="src/bloqueo_programa.bas">segundo c&oacute;digo</a> ejemplo usa bloqueo de programa, y se
+mantiene en un bucle, leyendo continuamente el valor de PORTB, hasta
+que detecta un cambio (es decir, la pulsaci&oacute;n); s&oacute;lo
+entonces actualiza el display con el valor correspondiente.</li>
+</ol>
+La tarea que se requiere realizar por parte del alumno es usar estos dos programas para analizar:<br>
+<br>
+<ol>
+  <li>Las diferencias en interactividad (o falta de ella) de los
+programas, especialmente desde el punto de vista de mantener al usuario
+al tanto de si el programa est&aacute; operando correctamente.<br>
+    <br>
+  </li>
+  <li>Las diferencias en tiempo de respuesta de las aplicaciones (es
+decir, el tiempo que transcurre entre el momento en que el usuario
+pulsa el bot&oacute;n F1 y el momento en que se refleja esta
+pulsaci&oacute;n en un cambio en el display).</li>
+</ol>
+<br>
+
+<br>
+
+</body>
+</html>

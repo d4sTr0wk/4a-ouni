@@ -1,0 +1,102 @@
+---------------------------------------------
+PIC ASSEMBLER LISTING
+Line    Address Opcode  Instruction
+---------------------------------------------
+0001    0000            ; Compiled with: PIC Simulator IDE v8.55
+0002    0000            ; Microcontroller model: PIC16F877A
+0003    0000            ; Clock frequency: 4.0MHz
+0004    0000            ;
+0005    0000            ;       The address of 'd1' (byte) (global) is 0x021
+0006    0000            ;       The address of 'd2' (byte) (global) is 0x022
+0007    0000            ;       The address of 'display' (byte) (global) is 0x020
+0008    0000            	ORG 0x0000
+0009    0000    118A    	BCF PCLATH,3
+0010    0001    120A    	BCF PCLATH,4
+0011    0002    2805    	GOTO L0004
+0012    0003            	ORG 0x0004
+0013    0004    0009    	RETFIE
+0014    0005            ; User code start
+0015    0005            L0004:
+0016    0005            ; 1: Dim d1 As Byte
+0017    0005            ; 2: Dim d2 As Byte
+0018    0005            ; 3: Dim display As Byte
+0019    0005            ; 4: d1 = 0
+0020    0005    01A1    	CLRF 0x021
+0021    0006            ; 5: d2 = 0
+0022    0006    01A2    	CLRF 0x022
+0023    0007            ; 6: TRISB = 0x01
+0024    0007    3001    	MOVLW 0x01
+0025    0008    1683    	BSF STATUS,RP0
+0026    0009    0086    	MOVWF TRISB
+0027    000A            ; 7: TRISC = 0
+0028    000A    0187    	CLRF TRISC
+0029    000B    1283    	BCF STATUS,RP0
+0030    000C            ; 8: main:
+0031    000C            L0001:
+0032    000C            ; 9: display = d1
+0033    000C    0821    	MOVF 0x021,W
+0034    000D    00A0    	MOVWF 0x020
+0035    000E            ; 10: Gosub calculadisplay
+0036    000E    201C    	CALL L0003
+0037    000F            ; 11: PORTC = display
+0038    000F    0820    	MOVF 0x020,W
+0039    0010    0087    	MOVWF PORTC
+0040    0011            ; 12: bucle:
+0041    0011            L0002:
+0042    0011            ; 13: d1 = PORTB
+0043    0011    0806    	MOVF PORTB,W
+0044    0012    00A1    	MOVWF 0x021
+0045    0013            ; 14: If d2 = d1 Then Goto bucle
+0046    0013    0822    	MOVF 0x022,W
+0047    0014    0221    	SUBWF 0x021,W
+0048    0015    1D03    	BTFSS STATUS,Z
+0049    0016    2818    	GOTO L0005
+0050    0017    2811    	GOTO L0002
+0051    0018            L0005:
+0052    0018            ; 15: d2 = d1
+0053    0018    0821    	MOVF 0x021,W
+0054    0019    00A2    	MOVWF 0x022
+0055    001A            ; 16: Goto main
+0056    001A    280C    	GOTO L0001
+0057    001B            ; 17: End
+0058    001B    281B    L0006:	GOTO L0006
+0059    001C            ; 18: calculadisplay:
+0060    001C            L0003:
+0061    001C            ; 19: Select Case display
+0062    001C            ; 20: Case 0
+0063    001C    0820    	MOVF 0x020,W
+0064    001D    3C00    	SUBLW 0x00
+0065    001E    1D03    	BTFSS STATUS,Z
+0066    001F    2823    	GOTO L0007
+0067    0020            ; 21: display = %00111111
+0068    0020    303F    	MOVLW 0x3F
+0069    0021    00A0    	MOVWF 0x020
+0070    0022            ; 22: Case 1
+0071    0022    2829    	GOTO L0008
+0072    0023            L0007:
+0073    0023    0820    	MOVF 0x020,W
+0074    0024    3C01    	SUBLW 0x01
+0075    0025    1D03    	BTFSS STATUS,Z
+0076    0026    2829    	GOTO L0009
+0077    0027            ; 23: display = %01000000
+0078    0027    3040    	MOVLW 0x40
+0079    0028    00A0    	MOVWF 0x020
+0080    0029            ; 24: EndSelect
+0081    0029            L0009:
+0082    0029            L0008:
+0083    0029            ; 25: Return
+0084    0029    0008    	RETURN
+0085    002A            ; 26: 
+0086    002A            ; 27: 
+0087    002A            ; End of user code
+0088    002A    282A    L0010:	GOTO L0010
+0089    002B            ;
+0090    002B            ;
+0091    002B            ;
+0092    002B            ;
+0093    002B            ;
+0094    002B            ;
+0095    002B            ; End of listing
+0096    002B            	END
+---------------------------------------------
+Number of errors = 0
