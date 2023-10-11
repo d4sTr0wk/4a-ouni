@@ -7,6 +7,8 @@ d1 = 0
 flagtimer = 0
 TRISB = 0x01
 OPTION_REG.T0CS = False
+INTCON.INTF = 0
+INTCON.T0IF = 0
 INTCON.TMR0IE = 1
 INTCON.INTE = 1
 INTCON.GIE = 1
@@ -62,6 +64,7 @@ On Interrupt
 	If INTCON.INTF = 1 Then
 		Toggle INTCON.TMR0IE
 		INTCON.INTF = 0
+		flagtimer = 0
 	Endif
 	If INTCON.T0IF = 1 Then
 		If flagtimer = 0 Then
@@ -70,7 +73,4 @@ On Interrupt
 		TMR0 = 127
 		INTCON.T0IF = 0
 	Endif
-Resume                                            
-	
-
-'oshonsoft_bookmarks_and_breakpoints_info:,371
+Resume
