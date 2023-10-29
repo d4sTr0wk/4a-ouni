@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Ejercicio 4: Medida de tiempos de respuesta</title>
+
+
+</head>
+
+
+<body>
+
+<h1 style="text-align: center;"> <b style=""><span style="font-size: 18pt;"></span></b></h1>
+
+<table style="width: 1098px; height: 155px;" border="0">
+
+  <tbody>
+
+    <tr>
+
+      <td style="width: 21.25px;"><img style="width: 99px; height: 93px;" alt="" src="img/uma.png"><br>
+
+      </td>
+
+      <td style="width: 1164.97px;">
+      <h1 style="text-align: center;"><b style=""><span style="font-size: 18pt;">Ejercicio 4: Medida de tiempos de
+respuesta<br>
+
+      </span></b></h1>
+
+      </td>
+
+      <td style="width: 21.25px;"> <img style="width: 99px; height: 93px;" title="dac" src="img/dac.png"> </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<h2>1. Objetivo</h2>
+
+El objetivo de esta pr&aacute;ctica es, combinando lo aprendido en
+los Ejercicios 2 y 3, realizar una medida, lo m&aacute;s precisa
+posible, de la diferencia de tiempo de respuesta entre consulta
+peri&oacute;dica y bloqueo de programa.<br>
+
+<br>
+
+<h2>2. Sistema de test</h2>
+
+Es el mismo del Ejercicio 3:<br>
+
+<br>
+
+<div style="text-align: center;"><img style="width: 578px; height: 441px;" alt="" src="img/Sistema_de_test.png">.<br>
+
+</div>
+
+<br>
+
+<h2>7. Pr&aacute;ctica a realizar</h2>
+Una vez configurado su origen de se&ntilde;al de oscilador
+(OPTION_REG.TOCS = 0), el temporizador TIMER0 est&aacute; continuamente
+andando, y por tanto nos proporciona una base de tiempos para hacer
+medidas. El alumno debe entonces partir de los c&oacute;digos usados en
+el Ejercicio 2 y asociar una interrupci&oacute;n INT &nbsp;a la linea
+RB0, de forma que aquella pulsaci&oacute;n que provoque un flanco de
+bajada (+V -&gt; 0) en la linea provoque una interrupci&oacute;n, cuyo
+manejador lea el valor actual del contador TMR0. Despu&eacute;s, cuando
+la rutina de procesamiento de la pulsaci&oacute;n detecte dicha
+pulsaci&oacute;n (pero antes de cambiar el display), el c&oacute;digo
+volver&aacute; a leer el valor de TMR0 y lo representar&aacute; en los
+displays de 7 segmentos conectados a los puertos C y D.<br>
+<br>
+Si la pulsaci&oacute;n provoca un flanco de subida (0-&gt; +V) no se
+genera interrupci&oacute;n, por lo que la operaci&oacute;n del
+c&oacute;digo en ese caso debe ser la misma que en el Ejercicio 2 (sin
+lectura de TMR0 y cambiando el valor de los displays a "--").<br>
+</body>
+</html>
