@@ -35,7 +35,7 @@ xlabel ('Tiempo (s)'); ylabel ('ECG en mV');
 figure (1); subplot (2,1,2); plot (ejex(1:(longitud/2)+1), magnitud(1:(longitud/2)+1)); grid;
 title ('Representación Espectral sen (F1*t) (1ª Mitad)');
 xlabel ('Frecuencia (Hz)');
-ylabel ('|Magnitud|');
+ylabel ('Magnitud');
 
 %%
 
@@ -45,6 +45,21 @@ ylabel ('|Magnitud|');
 % con el ECG del apartado anterior, simulando la introducción de ruido.
 % Dibujar el resultado en función del tiempo y de la frecuencia.
 
+Frecuencia_senal_ruido = 50;
+Ampiltud_senal_ruido = 150;
+senal_ruido = Ampiltud_senal_ruido*sin(Frecuencia_senal_ruido*2*pi*t);
+ECG_mezclado = senal_ruido + ECG_sin_DC;
+figure (2); subplot (2,1,1); plot (t, ECG_mezclado); grid;
+title ('ECG_sin_DC + Senal_ruido');
+xlabel ('Tiempo (s)'); ylabel ('ECG_sin_DC + Senal_ruido');
+% FFT a ECG_mezclado
+longitud = length (ECG_mezclado);
+senal_fft = fft (ECG_mezclado, longitud);
+magnitud = abs (senal_fft);
+ejex = linspace (0, Fs-(Fs/longitud), longitud);
+figure (2); subplot (2,1,2); plot (ejex (1:round((longitud/9)+1)), magnitud (1:round((longitud/9)+1))); grid;
+title ('FFT');
+xlabel ('Frecuencia (Hz)'); ylabel('Magnitud')
 
 
 %%
