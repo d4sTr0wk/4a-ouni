@@ -11,11 +11,10 @@ main:
 	For i = 0 To 3 Step 1  ' Recorre las columnas
 		PORTB = 1 << i  ' Activa la columna i
 		For j = 4 To 7 Step 1  ' Recorre las filas
-			If PORTB.j = 1 Then  ' Si la fila j está en alto, se pulsó una tecla
+			If PORTB.j = 1 Then  ' Si la fila j estÃ¡ en 1, se pulsÃ³ una tecla
 				display = i + (4 * (j - 4))
 				Gosub calculadisplay
 				PORTC = display
-				' Puedes agregar un pequeño retardo aquí para evitar la detección de rebotes
 			Endif
 		Next j
 		PORTB = 0  ' Desactiva la columna i
