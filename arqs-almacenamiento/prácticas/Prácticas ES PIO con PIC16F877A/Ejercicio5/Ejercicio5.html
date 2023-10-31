@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Ejercicio 5: Uso de PIO para la exploraci&oacute;n
+de un teclado matricial</title>
+
+
+</head>
+
+
+<body>
+
+<h1 style="text-align: center;"> <b style=""><span style="font-size: 18pt;"></span></b></h1>
+
+<table style="width: 1098px; height: 155px;" border="0">
+
+  <tbody>
+
+    <tr>
+
+      <td style="width: 21.25px;"><img style="width: 99px; height: 93px;" alt="" src="img/uma.png"><br>
+
+      </td>
+
+      <td style="width: 1164.97px;">
+      <h1 style="text-align: center;"><b style=""><span style="font-size: 18pt;">Ejercicio 5: Uso de PIO para la
+exploraci&oacute;n de un teclado matricial<br>
+
+      </span></b></h1>
+
+      </td>
+
+      <td style="width: 21.25px;"> <img style="width: 99px; height: 93px;" title="dac" src="img/dac.png"> </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<h2>1. Objetivo</h2>
+
+Los teclados matriciales son el perif&eacute;rico preferido para
+permitir a un usuario introducir c&oacute;digos
+num&eacute;ricos en un sistema gestionado por un microcontrolador
+(o peque&ntilde;o microprocesador). Estos teclados usan una matriz
+de contactos, en los que las coordenadas (fila y columna) del contacto
+cerrado dan la posici&oacute;n del bot&oacute;n pulsado.<br>
+
+<br>
+
+Los teclados matriciales no emplean interrupciones, sino que su lectura
+debe hacerse mediante un proceso peri&oacute;dico de
+exploraci&oacute;n (<span style="font-style: italic;">scan</span>),
+operando en modo PIO. Este ejercicio tiene como objetivo familiarizar
+al alumno con esta t&eacute;cnica de exploraci&oacute;n de un
+teclado matricial, y emplearlo para leer los valores introducidos a
+trav&eacute;s de un teclado hexadecimal.<br>
+
+<br>
+
+<h2>2. Sistema de test</h2>
+
+<br>
+
+<br>
+
+<div style="text-align: center;"><img style="width: 579px; height: 442px;" alt="" src="img/Sistema_de_test.png"><br>
+
+</div>
+
+El sistema de test simulado va a usar:<br>
+
+<ul>
+
+  <li>un display de 7 segmentos, conectado al puerto PORTC, para
+representar el valor hexadecimal le&iacute;do del teclado.<br>
+
+    <br>
+
+  </li>
+
+  <li>un teclado <span style="font-style: italic;">Keypad
+Matrix</span> (que se puede encontrar en el men&uacute; <span style="font-style: italic;">Tools</span> del PIC
+Simulator IDE), conectado a las 8 lineas del puerto PORTB.</li>
+
+</ul>
+
+<br>
+
+<br>
+
+<div style="text-align: center;"><img style="width: 419px; height: 338px;" alt="" src="img/keypad_matrix.png"><br>
+
+<br>
+
+</div>
+
+En el teclado matricial tenemos 16 contactos (pulsadores), organizados
+en 4 columnas y 4 filas (por defecto las columnas est&aacute;n
+conectadas a los bits 0 a 3 del puerto B, y las filas a los bits 4 a
+7). Como se observa, una fila puede tomar estos valores:<br>
+
+<ol>
+
+  <li>Si todos los contactos de la fila est&aacute;n abiertos
+(<span style="font-style: italic;">OFF</span>), la
+fila toma el valor <span style="font-weight: bold;">0</span>
+(0V).<br>
+
+    <br>
+
+  </li>
+
+  <li>Si alguno de los contactos de la fila est&aacute;
+cerrado (<span style="font-style: italic;">ON</span>),
+la fila tomar&aacute; el valor que se le haya dado a la columna (<span style="font-weight: bold;">1</span> si la columna
+est&aacute; a +V, o <span style="font-weight: bold;">0</span>
+si la columna est&aacute; a 0V).</li>
+
+</ol>
+
+Es posible entonces detectar el estado de ON/OFF de uno, o
+m&aacute;s, de los pulsadores de teclado, siguiendo un
+procedimiento sistem&aacute;tico de exploraci&oacute;n
+peri&oacute;dica:<br>
+
+<ol>
+
+  <li>Se elige la primera fila del teclado.<br>
+
+    <br>
+
+  </li>
+
+  <li>Para cada uno de los cuatro pulsadores de la fila se prueba
+su estado:</li>
+
+  <ul>
+
+    <li>Se da el valor <span style="font-weight: bold;">1</span>
+(+V) a su columna correspondiente.<br>
+
+      <br>
+
+    </li>
+
+    <li>A continuaci&oacute;n, se lee el valor que ha tomado
+la
+fila; <span style="font-weight: bold;">0</span>
+indica pulsador abierto (OFF), y <span style="font-weight: bold;">1</span>
+indica pulsador cerrado (ON).<br>
+
+      <br>
+
+    </li>
+
+    <li>Finalmente, se devuelve a <span style="font-weight: bold;">0</span> el valor de la
+columna.<br>
+
+    </li>
+
+  </ul>
+
+  <li>Se repite este procedimiento con las restantes filas del
+teclado</li>
+
+</ol>
+
+Obviamente, todo este proceso se realiza usando E/S en modo PIO,
+haciendo operaciones de escritura sobre los bits asignados a las
+columnas, y de lectura sobre los bits asignados a las filas.<br>
+
+<br>
+
+Es interesante realizar dos observaciones:<br>
+
+<ul>
+
+  <li>La exploraci&oacute;n puede hacerse indistintamente por
+filas o por columnas; el resultado final ser&aacute; el mismo.<br>
+
+    <br>
+
+  </li>
+
+  <li>El m&eacute;todo de exploraci&oacute;n
+peri&oacute;dica permite detectar tanto la pulsaci&oacute;n de
+teclas como su liberaci&oacute;n.</li>
+
+</ul>
+
+<p></p>
+
+<h2>3. Pr&aacute;ctica a realizar</h2>
+
+El alumno deber&aacute; implementar un driver de dispositivo en
+BASIC que realice las siguientes funciones:<br>
+
+<ol>
+
+  <li>Mediante exploraci&oacute;n peri&oacute;dica a
+trav&eacute;s del puerto B (&iexcl;ojo a TRISB!), leer valores
+entre 0 y 15 introducidos con un teclado hexadecimal.<br>
+
+    <br>
+
+  </li>
+
+  <li>Usando el display de 7 segmentos conectado al puerto C,
+representar el valor hexadecimal le&iacute;do, que ser&aacute;
+mostrado en el display tan pronto se detecte la pulsaci&oacute;n de
+la tecla.<br>
+
+    <br>
+
+  </li>
+
+  <li>Indicar el estado de pulsaci&oacute;n o
+liberaci&oacute;n de la tecla con el punto decimal del display, de
+forma que el punto permanecer&aacute; encendido mientras la tecla
+est&eacute; pulsada, mientras que se apagar&aacute; cuando la
+tecla sea liberada.<br>
+
+&nbsp;</li>
+
+</ol>
+
+
+<br>
+
+</body>
+</html>
