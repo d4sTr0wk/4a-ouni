@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+  
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+
+
+  
+  
+  <title>Ejercicio 6: Control de m&aacute;quina expendedora</title>
+</head>
+
+
+<body>
+
+
+
+<h1 style="text-align: center;"> <b style=""><span style="font-size: 18pt;"></span></b></h1>
+
+
+
+<table style="width: 1098px; height: 155px;" border="0">
+
+
+
+  <tbody>
+
+
+
+    <tr>
+
+
+
+      <td style="width: 21.25px;"><img style="width: 99px; height: 93px;" alt="" src="img/uma.png"><br>
+
+
+
+      </td>
+
+
+
+      <td style="width: 1164.97px;">
+      
+      
+      <h1 style="text-align: center;"><b style=""><span style="font-size: 18pt;">Ejercicio 6: Control de
+m&aacute;quina expendedora<br>
+
+
+
+      </span></b></h1>
+
+
+
+      </td>
+
+
+
+      <td style="width: 21.25px;"> <img style="width: 99px; height: 93px;" title="dac" src="img/dac.png"> </td>
+
+
+
+    </tr>
+
+
+
+  
+  
+  </tbody>
+</table>
+
+
+
+<h2>1. Objetivo</h2>
+
+
+
+El objetivo de este ejercicio es que el alumno escriba un programa de
+control, en BASIC, que permita controlar con un microcontrolador
+PIC16F877A una m&aacute;quina expendedora. Concretamente, las
+funciones
+que se piden son las siguientes:<br>
+
+
+
+<br>
+
+
+
+1 - Lectura del teclado matricial<br>
+
+
+
+<br>
+
+
+
+2 - Uso del LCD para informar al usuario del avance del proceso de
+venta.<br>
+
+
+
+<br>
+
+
+
+3 - Control del producto solicitado y del inicio de la
+transacci&oacute;n<br>
+
+
+
+<br>
+
+
+
+4 - Control de un motor DC encargado de entregar el producto al usuario.<br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+<h2>2. Sistema de test</h2>
+
+
+
+El sistema (simulado) que debemos controlar es una m&aacute;quina
+expendedora similar a la mostrada en la siguiente imagen:<br>
+
+
+
+<br>
+
+
+
+<div style="text-align: center;"><img style="width: 581px; height: 1032px;" alt="" src="img/maquina-completa.jpg"><br>
+
+
+
+<br>
+
+
+
+<div style="text-align: left;">Como se puede apreciar en
+la siguiente foto los productos est&aacute;n organizados por filas
+y columnas, de forma&nbsp; que cada producto es identificado con un
+c&oacute;digo num&eacute;rico de dos d&iacute;gitos:</div>
+
+
+
+<br>
+
+
+
+<img style="width: 1032px; height: 581px;" alt="" src="img/maquina-fila.jpg"><br>
+
+
+
+<br>
+
+
+
+<div style="text-align: left;">La entrega de un producto
+se realiza
+haciendo girar un motor DC acoplado a la espiral correspondiente a la
+l&iacute;nea de producto solilcitada; cuando la espiral da un giro
+completo, el producto cae al compartimento de salida.</div>
+
+
+
+<br>
+
+
+
+<div style="text-align: left;">A la hora de comprar el
+producto, y tras
+realizar el pago, el usuario introduce el&nbsp;c&oacute;digo
+num&eacute;rico del producto deseado a trav&eacute;s del un
+teclado
+matricial mostrado en esta foto:<br>
+
+
+
+<div style="text-align: center;"><img style="width: 581px; height: 1032px;" alt="" src="img/maquina-teclado.jpg"></div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+Como se observa en las im&aacute;genes, la m&aacute;quina tiene
+tambi&eacute;n una pantalla en la que muestra mensajes que van
+guiando
+al usuario durante el proceso de compra.<br>
+
+
+
+<h2>3. Dispositivos y perif&eacute;ricos a usar</h2>
+
+
+
+Usando la placa PicGenios, vamos a simular el control de esta
+m&aacute;quina expendedora. Para ello usaremos los siguientes
+dispositivos:<br>
+
+
+
+<br>
+
+
+
+<ol>
+
+
+
+  <li>El teclado matricial de la placa PicGenios.<br>
+
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>El display LCD de la placa PicGenios.<br>
+
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>En el m&oacute;dulo "Spare Tools", un motor DC que
+representar&aacute; el usado para mover la espiral de una de las
+l&iacute;neas de producto. Para este dispositivo
+usaremos&nbsp;la siguiente configuraci&oacute;n:</li>
+
+
+
+</ol>
+
+
+
+<img style="width: 724px; height: 356px;" alt="" src="img/configuracion_motor.png"><br>
+
+
+
+<br>
+
+
+
+Las l&iacute;neas <span style="font-weight: bold;">InA</span>
+e <span style="font-weight: bold;">In B</span>
+permiten especificar el sentido de giro del motor (01 = antihorario, 10
+= horario), mientras poner a 1 la l&iacute;nea <span style="font-weight: bold;">In PWM</span> activa el
+motor. Las l&iacute;neas Out A y Out B, por su parte, son las
+salidas de un codificador en cuadratura que permite monitorizar el giro
+del motor. <br>
+
+
+
+<br>
+
+
+
+La siguiente figura muestra el esquema el&eacute;ctrico del
+dispositivo DC Motor de PicSimLab; este dispositivo utiliza la
+simulaci&oacute;n de un controlador de motor DC TB6612FNG, <a href="img/TB6612FNG_datasheet_en_20141001.pdf">cuyo
+datasheet puede accederse a trav&eacute;s de este enlace</a>.
+Por otra parte, en <a href="img/quadrature_encoder.pdf">este
+documento</a> se describe qu&eacute; es un codificador en
+cuadratura, y c&oacute;mo puede emplearse para identificar la
+direcci&oacute;n de giro del motor. (NOTA: Se aconseja usar la funcionalidad de "Osciloscopio" del men&uacute;&nbsp;<span style="font-weight: bold;">Modules</span> de PicSimLab para ver c&oacute;mo cambian las salidas del codificador en cuadratura al girar el motor).<br>
+
+
+
+<br>
+
+
+
+<img style="width: 702px; height: 490px;" alt="" src="img/esquema_motor_dc.png"><br>
+
+
+
+<br>
+
+
+
+El <a href="src/Ejercicio6.bas">c&oacute;digo&nbsp;proporcionado</a> con
+este Ejercicio muestra un ejemplo de c&oacute;mo controlar el
+motor para realizar peque&ntilde;os giros en ambos sentidos, y de
+c&oacute;mo usar el display LCD (recordar que en la secci&oacute;n 2.1
+del documento que describe los perif&eacute;ricos de la placa PicGenios
+se describe en detalle, incluyendo un ejemplo, la forma de programar y
+usar este display LCD).<br>
+
+
+
+<br>
+
+
+
+<h2>3. Secuencia de operaci&oacute;n de la m&aacute;quina</h2>
+
+
+
+El programa de control a desarrollar por el alumno debe implementar la
+siguiente secuencia de operaci&oacute;n (NOTA: usar dos lineas en
+el display LCD si el mensaje es demasiado largo para caber en una
+s&oacute;la).<br>
+
+
+
+<br>
+
+
+
+<ol>
+
+
+
+  <li>Inicializar el programa mostrando en el display LCD el
+mensaje de bienvenida "Listo para compra".<br>
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>Monitorizar (leyendo peri&oacute;dicamente) el teclado
+matricial, esperando que el usuario introduzca un c&oacute;digo de
+producto v&aacute;lido (dos d&iacute;gitos, fila y columna, con
+s&oacute;lo 6 productos por fila, de forma que los
+c&oacute;digos v&aacute;lidos van del 11 al 66, excluyendo los
+valores terminados en 7, 8, 9 y 0).<br>
+
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>Una vez identificado un c&oacute;digo
+v&aacute;lido, mostrarlo en pantalla LCD, y a
+continuaci&oacute;n solicitar al usuario que pulse el
+bot&oacute;n "&euro;" para confirmar la compra (ver en la foto
+del teclado matricial la posici&oacute;n de esta tecla).<br>
+
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>Detectar la pulsaci&oacute;n del bot&oacute;n
+"&euro;" en el teclado matricial. Mostrar en el display LCD un
+mensaje indicando que la venta est&aacute; en proceso.<br>
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>Hacer girar el motor DC en direcci&oacute;n horaria una
+revoluci&oacute;n completa. Controlar la duraci&oacute;n del
+giro usando una espera WaitMs; ajustar la duraci&oacute;n de la
+espera por tanteo y error para conseguir que gire&nbsp;una (y
+s&oacute;lo una) revoluci&oacute;n completa.<br>
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>Una vez detenido el motor, volver a mostrar en el display
+LCD el mensaje "Listo para compra".</li>
+
+
+
+</ol>
+
+
+<br>
+
+
+
+<span style="text-decoration: underline; font-weight: bold;">IMPORTANTE:</span>
+En la documentaci&oacute;n sobre la placa PicGenios disponible en
+el campus virtual se puede observar que tanto el teclado matricial como
+el display LCD utilizan l&iacute;neas del puerto D, como entradas
+(en el caso del teclado) y como salidas (en el caso del display). Esto
+significa que, en la implementaci&oacute;n de la secuencia de
+operaci&oacute;n especificada, el alumno deber&aacute; ir
+reconfigurando din&aacute;micamente el puerto D conforme sea
+necesario, de acuerdo a la operaci&oacute;n que en cada momento
+tenga que realizar (lectura del teclado o notificaci&oacute;n al
+usuario).<br>
+
+
+
+<br>
+
+
+
+<big><span style="font-weight: bold;">MUY
+IMPORTANTE: El m&oacute;dulo "Spare parts" (y la
+implementaci&oacute;n del motor DC) no son especialmente estables,
+y cuando se cambia el programa en el P&Iuml;C (leyendo o releyendo
+un nuevo fichero .hex), es frecuente que el motor DC se quede
+funcionando con la &uacute;ltima configuraci&oacute;n que
+us&oacute; la versi&oacute;n previa del programa (o, peor
+a&uacute;n, que tenga comportamientos err&aacute;ticos). La
+&uacute;nica soluci&oacute;n fiable para resetear el estado del
+m&oacute;dulo es cargar en PicSimLab el nuevo fichero .hex, cerrar
+totalmente PicSimLab, y volverlo a abrir (momento en que
+volver&aacute; a cargar el nuevo fichero .hex que hemos
+especificado). Al abrir el Spare Tools el motor volver&aacute; a
+aparecer autom&aacute;ticamente, pero ahora ya
+funcionar&aacute; bajo control correcto de la nueva
+versi&oacute;n del programa .hex</span></big>
+<br>
+
+
+
+<h2>6. Variante</h2>
+
+
+
+La secuencia de operaci&oacute;n especificada simplifica al alumno
+la implementaci&oacute;n dejando que la duraci&oacute;n del
+giro sea especificada mediante la duraci&oacute;n de una espera
+WaitMs. Si el alumno completa con &eacute;xito la
+pr&aacute;ctica propuesta, se le anima a que intente la
+implementaci&oacute;n de una versi&oacute;n alternativa (y
+m&aacute;s elegante) en la que el control del giro del motor es
+realizado no mediante una espera activa (WaitMs), sino usando la
+se&ntilde;alizaci&oacute;n proporcionada por el codificador en
+cuadratura, contando el n&uacute;mero de pulsos necesario para
+completar un giro completo.<br>
+
+
+
+</body>
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+
+  
+  
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+
+
+
+  
+  
+  
+  <title>Ejercicio 5: Manejo de interrupciones en cascada</title>
+</head>
+
+
+<body>
+
+
+
+
+<h1 style="text-align: center;"> <b style=""><span style="font-size: 18pt;"></span></b></h1>
+
+
+
+
+<table style="width: 1098px; height: 155px;" border="0">
+
+
+
+
+  <tbody>
+
+
+
+
+    <tr>
+
+
+
+
+      <td style="width: 21.25px;"><img style="width: 99px; height: 93px;" alt="" src="img/uma.png"><br>
+
+
+
+
+      </td>
+
+
+
+
+      <td style="width: 1164.97px;">
+      
+      
+      
+      <h1 style="text-align: center;"><b style=""><span style="font-size: 18pt;">Ejercicio 5: Manejo de
+interrupciones en cascada<br>
+
+
+
+
+      </span></b></h1>
+
+
+
+
+      </td>
+
+
+
+
+      <td style="width: 21.25px;"> <img style="width: 99px; height: 93px;" title="dac" src="img/dac.png"> </td>
+
+
+
+
+    </tr>
+
+
+
+
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+<h2>1. Objetivo</h2>
+
+
+
+
+El objetivo de este ejercicio es que el alumno escriba un driver de
+dispositivo, en BASIC, que proporcione al PIC16F877A:<br>
+
+
+
+
+<br>
+
+
+
+
+<ol>
+
+
+
+
+  <li>Un manejador de interrupciones en cascada (<span style="font-style: italic;">daisy-chain</span>), que
+permita al sistema hacer coexistir correctamente las interrupciones
+procedentes de dos or&iacute;genes distintos, el temporizador
+TIMER0 y la linea de peticiones de interrupci&oacute;n externa
+(RB0/INT), activada manualmente mediante un pulsador.<br>
+
+
+
+
+    <br>
+
+
+
+
+  </li>
+
+
+
+
+  <li>Un c&oacute;digo de gesti&oacute;n de las acciones
+asociadas a las interrupciones que separe las secciones
+cr&iacute;ticas de tiempo (que ir&aacute;n en el manejador de
+interrupciones) de las secciones de temporizaci&oacute;n no
+cr&iacute;ticas, que se ejecutar&aacute;n en el cuerpo
+principal del programa.</li>
+
+
+
+
+</ol>
+
+
+<br>
+Como resultado final, se pide al alumno que programe un manejador de
+interrupciones capaz de gestionar sin conflictos dos or&iacute;genes
+distintos de interrupciones (TIMER0 y la l&iacute;nea INT) para
+implementar un contador que use TIMER0 para generar su base de tiempos
+y el pulsador asociado a INT para controlar su operaci&oacute;n.<br>
+
+
+
+
+<h2>2. Sistema de test</h2>
+
+
+
+
+La configuraci&oacute;n del sistema de pruebas simulado a usar en
+este ejercicio se muestra en las siguientes figuras:<br>
+
+
+
+
+<br>
+
+
+
+
+<div style="text-align: center;"><img style="width: 578px; height: 441px;" alt="" src="img/Sistema_de_test.png"><br>
+
+
+
+
+<img style="width: 400px; height: 321px;" alt="" src="img/SistemaInterrupciones.png"><br>
+
+
+
+
+</div>
+
+
+
+
+<p>En este ejercicio existir&aacute;n dos
+perif&eacute;ricos capaces de producir interrupciones en el 16F877A:</p>
+
+
+
+
+<ol>
+
+
+
+
+  <li>El temporizador TIMER0, que generar&aacute;
+internamente una petici&oacute;n de interrupci&oacute;n cada
+vez que su registro contador asociado TMR0 desborde y pase de FFh a 00h.<br>
+
+
+
+
+    <br>
+
+
+
+
+  </li>
+
+
+
+
+  <li>Un pulsador externo conectado a la linea RB0/INT, de
+id&eacute;ntica forma a la usada en el Ejercicio 4; la diferencia
+con ese ejercicio es que ahora el pulsador generar&aacute; una
+petici&oacute;n de interrupci&oacute;n INT cuando haga aparecer
+un flanco de bajada en el bit PORTB.0.<br>
+
+
+
+
+  </li>
+
+
+
+
+</ol>
+
+
+
+
+<h2>3. Control de interrupciones en el PIC16F877A</h2>
+
+
+
+
+Para la gesti&oacute;n de interrupciones, el PIC16F877A posee un
+registro de control y estado (llamado INTCON y sito en la
+posici&oacute;n 0Bh), que ofrece los siguientes bits de
+m&aacute;scara y estado:<br>
+
+
+
+
+<br>
+
+
+
+
+<br>
+
+
+
+
+<div style="text-align: center;"><img style="width: 800px; height: 763px;" alt="" src="img/intcon.png"><br>
+
+
+
+
+</div>
+
+
+
+
+<br>
+
+
+
+
+<ol>
+
+
+
+
+  <li>El flag GIE es la m&aacute;scara global de
+interrupciones del microcontrolador. El BASIC del compilador cruzado
+permite referenciar simb&oacute;licamente este bit como INTCON.GIE,
+de forma que las interrupciones estar&aacute;n habilitadas cuando
+INTCON.GIE = 1.<br>
+
+
+
+
+    <br>
+
+
+
+
+  </li>
+
+
+
+
+  <li>El flag TMR0IE es la m&aacute;scara de interrupciones
+individual del temporizador TIMER0, de forma que sus interrupciones
+estar&aacute;n habilitadas cuando INTCON.TMR0IE = 1.<br>
+
+
+
+
+    <br>
+
+
+
+
+  </li>
+
+
+
+
+  <li>El flag INTE es la m&aacute;scara de interrupciones
+individual de la linea externa de petici&oacute;n de interrupciones
+INT; sus interrupciones estar&aacute;n habilitadas cuando
+INTCON.INTE = 1.<br>
+
+
+
+
+    <br>
+
+
+
+
+  </li>
+
+
+
+
+  <li>El flag TMR0IF es un bit de estado que, cuando
+est&aacute; a <span style="font-weight: bold;">1</span>,
+indica que hay una petici&oacute;n de interrupci&oacute;n
+pendiente de procesar generada desde TIMER0. Este flag debe ser
+limpiado desde software (es decir, debe ejecutarse la
+instrucci&oacute;n INTCON.TMR0IF = 0), t&iacute;picamente desde
+el manejador de la interrupci&oacute;n.<br>
+
+
+
+
+    <br>
+
+
+
+
+  </li>
+
+
+
+
+  <li>El flag INTF es un bit de estado que, cuando
+est&aacute; a <span style="font-weight: bold;">1</span>,
+indica que hay una petici&oacute;n de interrupci&oacute;n
+pendiente de procesar generada desde la linea INT. Este flag debe ser
+limpiado desde software (es decir, ejecutar la instrucci&oacute;n
+INTCON.INTF = 0) , t&iacute;picamente desde el manejador de la
+interrupci&oacute;n.</li>
+
+
+
+
+</ol>
+
+
+
+
+<br>
+
+
+
+
+<div style="text-align: center;"><img style="width: 400px; height: 700px;" alt="" src="img/figura2-1.png"></div>
+
+
+
+
+<br>
+
+
+
+
+<p>En cuanto a la rutina de servicio de interrupciones, como el
+16F877A tiene un &uacute;nico vector de interrupciones, las
+interrupciones son autovectorizadas e, independientemente de su origen,
+llaman siempre a la rutina de servicio cuya direcci&oacute;n de
+inicio est&aacute; contenida en la posici&oacute;n 0004h de la
+memoria de programa. La rutina de servicio debe , por tanto, operar en
+modo encadenado, muestreando los bits de petici&oacute;n de
+interrupci&oacute;n para determinar el origen de la
+petici&oacute;n en curso.</p>
+
+
+
+
+<p>La prioridad de las interrupciones vendr&aacute;
+determinada, entonces, por el orden de muestreo de los bits (y, en
+nuestro caso, consideraremos m&aacute;s prioritario la del
+temporizador TIMER0).<br>
+
+
+
+
+</p>
+
+
+
+
+<h2>4. Descripci&oacute;n del temporizador TIMER0</h2>
+
+
+
+
+El Microchip PIC16F877A contiene tres temporizadores internos (TIMER0,
+TIMER1, TIMER2), de los que el m&aacute;s usado es el TIMER0, cuyo
+esquema de bloques se muestra en la figura.<br>
+
+
+
+
+<br>
+
+
+
+
+<div style="text-align: center;"><img style="width: 800px; height: 608px;" alt="" src="img/timer0.png"><br>
+
+
+
+
+<br>
+
+
+
+
+</div>
+
+
+
+
+<p>Las caracter&iacute;sticas relevantes, para nuestra
+pr&aacute;ctica, de este temporizador son:</p>
+
+
+
+
+<ol>
+
+
+
+
+  <li>Posee un registro contador de 8 bits, TMR0, cuyo valor es
+incrementado peri&oacute;dicamente en 1 cada ciclo de
+instrucci&oacute;n, y que va tomando progresivamente todos los
+valores entre 00h y FFh. Cuando el contador alcanza FFh y desborda,
+vuelve a 00h y genera una interrupci&oacute;n, indicada por el flag
+INTCON.TMR0IF.<br>
+
+
+
+
+    <br>
+
+
+
+
+  </li>
+
+
+
+
+  <li>TMR0 puede ser escrito desde software, por lo que puede ser
+precargado con un valor distinto de 00h para modificar el tiempo que
+pasa entre dos interrupciones.<br>
+
+
+
+
+    <br>
+
+
+
+
+  </li>
+
+
+
+
+  <li>Aunque el micro simulado s&oacute;lo opera con su reloj
+interno, el microcontrolador real puede usar un oscilador externo,
+conectado a la linea RA4/TOCKI, como se&ntilde;al de reloj de
+TIMER0; por ello ser&aacute; necesario, en nuestro
+c&oacute;digo, poner a 0 el flag TOCS del registro OPTION_REG para
+indicar que se usar&aacute; el oscilador interno.</li>
+
+
+
+
+</ol>
+
+
+
+
+<br>
+
+
+
+
+<h2>5. Manejador de interrupciones en BASIC</h2>
+
+
+
+
+El compilador cruzado BASIC del simulador proporciona un mecanismo
+sencillo de gesti&oacute;n de las interrupciones.<br>
+
+
+
+
+<br>
+
+
+
+
+<div style="text-align: center;"><img style="width: 600px; height: 655px;" alt="" src="img/codigo.png"></div>
+
+
+
+
+<br>
+
+
+
+
+<p>Como se observa en la figura, el manejador de interrupciones es un segmento de c&oacute;digo caracterizado por:</p>
+
+
+
+<ol>
+
+
+
+  <li>Debe ir precedido por el resto del programa. El programa debe terminar con una linea <span style="font-style: italic;">End</span>, para delimitarlo con precisi&oacute;n.<br>
+
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>El manejador comienza con la sentencia <span style="font-style: italic;">On Interrupt</span>, y termina con la sentencia <span style="font-style: italic;">Resume</span>.</li>
+
+
+
+</ol>
+
+
+
+El compilador cruzado BASIC, al identificar el manejador de
+interrupciones, genera el c&oacute;digo m&aacute;quina de nuestra
+rutina de manejador precedido por c&oacute;digo que salva el contexto
+m&iacute;nimo necesario (PC y flags de estado), y finalizado con la
+instrucci&oacute;n IRET de retorno de rutina de interrupci&oacute;n.<br>
+
+
+
+<br>
+
+
+
+<h2>6. Programa ejemplo</h2>
+
+
+
+El alumno partir&aacute; de este <a href="src/Ejercicio5.bas">c&oacute;digo ejemplo</a>
+proporcionado, que muestra c&oacute;mo usar la interrupci&oacute;n del
+temporizador TIMER0 para incrementar peri&oacute;dicamente el valor de
+la variable d1 y contar con ella hasta 20, de forma repetida. En este
+c&oacute;digo se observa claramente c&oacute;mo la gesti&oacute;n de la
+interrupci&oacute;n est&aacute; dividida en dos partes:<br>
+
+
+
+<ol>
+
+
+
+  <li>En el manejador de interrupci&oacute;n (<span style="font-style: italic;">On Interrupt</span>)
+se comprueba el flag de petici&oacute;n de interrupci&oacute;n del
+temporizador, T0IF, y se indica con una variable software (flagtimer)
+la necesidad de incrementar el valor de d1, pero <span style="text-decoration: underline;">no se realiza este incremento</span>. &nbsp;Seguidamente
+el manejador vuelve a progamar el intervalo de temporizaci&oacute;n
+(cargando TMR0 con un 127) y resetea el flag T0IF. De esta forma se
+minimiza el tiempo invertido en ejecutar el manejador, y evitamos el
+riesgo de una interrupci&oacute;n autointerrumpida.<br>
+
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>En el cuerpo del programa se usa el valor de la variable
+flagtimer para determinar si se debe incrementar el valor de d1; de
+esta forma la parte m&aacute;s larga del procesamiento de la
+interrupci&oacute;n se realiza en una zona de c&oacute;digo no
+cr&iacute;tico.<br>
+
+
+
+  </li>
+
+
+
+</ol>
+
+
+
+<h2>7. Pr&aacute;ctica a realizar</h2>
+
+
+
+Partiendo del c&oacute;digo ejemplo proporcionado, se pide al alumno que desarrolle un manejador de interrupciones en cascada (<span style="font-style: italic;">daisy-chain</span>) y extienda la funcionalidad del programa, de forma que realice lo siguiente:<br>
+
+
+
+<ol>
+
+
+
+  <li>En los displays de 7 segmentos 2 y 3, controlados a
+trav&eacute;s de
+los puertos PORTD y PORTA, representar el valor hexadecimal de la
+variable d1, extendiendo el rango de valores posibles al intervalo 0 -
+32 (decimal). Cuando llegue a 32, el contador volver&aacute; a 0 en el
+siguiente tic del temporizador (es decir, al producirse la siguiente
+interrupci&oacute;n del TIMER0).<br>
+
+
+
+    <br>
+
+
+
+  </li>
+
+
+
+  <li>Habilitar la interrupci&oacute;n INT, generada con el pulsador
+conectado a la linea RB0/INT, y usarla como un bot&oacute;n de
+marcha/paro de la cuenta, de forma que:<br>
+
+
+
+    <br>
+
+
+
+    
+    
+    
+    <ul>
+
+
+
+      <li>si el contador est&aacute; andando, al pulsar el bot&oacute;n
+la cuenta se pare (deshabilitando la interrupci&oacute;n de TIMER0).<br>
+
+
+
+        <br>
+
+
+
+      </li>
+
+
+
+      <li>si el contador est&aacute; parado, la pulsaci&oacute;n vuelva
+a poner en marcha la cuenta (volviendo a habilitar la
+interrupci&oacute;n del temporizador e inicializando el valor de
+TMR0).&nbsp;</li>
+
+
+
+    
+    
+    
+    </ul>
+
+
+
+  </li>
+
+
+
+</ol>
+
+
+
+
+</body>
+</html>

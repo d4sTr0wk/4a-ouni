@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <title>Ejercicio 4: Lectura por consulta peri&oacute;dica y por bloqueo de programa</title>
+</head>
+
+
+<body>
+
+
+
+
+
+
+
+<h1 style="text-align: center;"> <b style=""><span style="font-size: 18pt;"></span></b></h1>
+
+
+
+
+
+
+
+<table style="width: 1098px; height: 155px;" border="0">
+
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+
+      <td style="width: 21.25px;"><img style="width: 99px; height: 93px;" alt="" src="img/uma.png"><br>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+      <td style="width: 1164.97px;">
+      
+      
+      
+      
+      
+      
+      <h1 style="text-align: center;"><b style=""><span style="font-size: 18pt;">Ejercicio 4: Lectura por consulta peri&oacute;dica y por bloqueo de programa<br>
+
+
+
+
+
+
+
+      </span></b></h1>
+
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+
+      <td style="width: 21.25px;"> <img style="width: 99px; height: 93px;" title="dac" src="img/dac.png"> </td>
+
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+
+<h2>1. Objetivo</h2>
+
+El objetivo de este ejercicio es que el alumno escriba un driver de
+dispositivo, en BASIC, que permita al PIC16F877A leer el estado de los
+seis pulsadores individuales asociados al puerto PORTB, e indicar su
+estado de activaci&oacute;n usando la tira de LEDs conectada al puerto
+PORTD.<br>
+
+<br>
+
+Concretamente, el programa debe tener el siguiente comportamiento:<br>
+
+<br>
+
+<ol>
+
+  <li>Mediante consulta peri&oacute;dica, lee el estado de
+pulsaci&oacute;n de cada uno de los botones conectados a las
+l&iacute;neas RB0 a RB5.<br>
+
+  </li>
+
+  <li>Cuando uno de los botones est&eacute; pulsado (s&oacute;lo debe
+haber uno pulsado, ya que en PicSimLab se pulsan&nbsp;usando el cursor
+del rat&oacute;n, que obviamente s&oacute;lo puede estar sobre un
+&uacute;nico bot&oacute;n en cualquier momento), se encender&aacute; en
+el puerto PORTD el LED correspondiente a su l&iacute;nea; as&iacute;,
+por ejemplo, si la tecla pulsada es la RB2 se encender&aacute; el led
+RD2, y s&oacute;lamente ese.<br>
+
+  </li>
+
+  <li>Cuando no haya ning&uacute;n interruptor pulsado, se encender&aacute; de forma continua el LED RD7.</li>
+
+</ol>
+
+<br>
+
+<big><span style="font-weight: bold;"><big>Variante #1</big></span></big><br>
+
+<br>
+
+Como primera variante, si no hay ning&uacute;n pulsador activo el LED
+RD7 de inactividad debe parpadear (es decir, encenderse y apagarse
+alternadamente)<br>
+
+<br>
+
+<big><span style="font-weight: bold;"><big><br>
+
+Variante #2</big></span></big><br>
+
+<br>
+
+En la segunda variante intentaremos obtener una estimaci&oacute;n
+visual de la diferencia en tiempo de respuesta entre consulta
+peri&oacute;dica y bloqueo de programa. Para ello, repetimos el
+programa original (RD7 fijo si no hay actividad, y se enciende el led
+RDx cuando se detecte una pulsaci&oacute;n en el bot&oacute;n RBx); sin
+embargo, esta vez la lectura de los botones DEBE realizarse usando
+bloqueo de programa (por lo que la actualizaci&oacute;n del estado de
+los LEDs s&oacute;lo podr&aacute; realizarse una vez se haya detectado
+el cambio de estado en alguna de las l&iacute;neas RBx).<br>
+
+<br>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<h2>2. Sistema de test</h2>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+La configuraci&oacute;n del sistema de pruebas simulador es la
+mostrada en la siguiente figura:<br>
+
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+
+<div style="text-align: center;"><img style="width: 1000px; height: 610px;" alt="" src="img/SistemaDeTest.png"><br>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>4. Consideraciones adicionales</h2>
+
+Para realizar este ejerc&iacute;cio debe determinarse correctamente el
+valor de configuraci&oacute;n para los registros TRISx afectados.
+Adicionalmente, debe consultarse el documento descriptivo de los
+perif&eacute;ricos de la placa PicGenios para determinar qu&eacute; dip
+switches deben abrirse con el fin de desconectar de las l&iacute;neas
+RBx y RDx aquellos perif&eacute;ricos que potencialmente pueden generar
+conflictos al usar estas l&iacute;neas (como, por ejemplo, el reloj de tiempo real RTC).<br>
+
+
+
+
+
+
+
+</body>
+</html>

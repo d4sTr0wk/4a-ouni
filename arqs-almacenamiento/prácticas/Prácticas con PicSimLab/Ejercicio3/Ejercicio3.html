@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+
+
+
+
+
+  
+  
+  
+  
+  
+  <title>Ejercicio 3: E/S por programa (PIO) mapeada en memoria</title>
+</head>
+
+
+<body>
+
+
+
+
+
+
+<h1 style="text-align: center;"> <b style=""><span style="font-size: 18pt;"></span></b></h1>
+
+
+
+
+
+
+<table style="width: 1098px; height: 155px;" border="0">
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td style="width: 21.25px;"><img style="width: 99px; height: 93px;" alt="" src="img/uma.png"><br>
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+      <td style="width: 1164.97px;">
+      
+      
+      
+      
+      
+      <h1 style="text-align: center;"><b style=""><span style="font-size: 18pt;">Ejercicio 3: E/S por programa (PIO)
+mapeada en memoria<br>
+
+
+
+
+
+
+      </span></b></h1>
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+      <td style="width: 21.25px;"> <img style="width: 99px; height: 93px;" title="dac" src="img/dac.png"> </td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+<h2>1. Objetivo</h2>
+
+El objetivo de este ejercicio es que el alumno escriba un driver de
+dispositivo, en BASIC, que permita al PIC16F877A usar los puertos D y A
+para
+controlar los cuatro displays de 7 segmentos de la placa PicGenios, en
+los que deber&aacute; hacer aparecer un contador que cuente de 1000 a
+0000, usando siempre cuatro d&iacute;gitos para mostrar el resultado.<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<h2>2. Sistema de test</h2>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+La configuraci&oacute;n del sistema de pruebas simulador es la
+mostrada en la siguiente figura:<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<div style="text-align: center;"><img style="width: 1000px; height: 610px;" alt="" src="img/SistemaDeTest.png"><br>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<h2>4. Necesidad de retardos para la visualizaci&oacute;n</h2>
+
+La UNICA dificultad significativa de este ejercicio es que el alumno
+debe tener en cuenta que los displays usan de forma multiplexada el
+registro D, y por tanto NO se puede activar simultaneamente m&aacute;s
+de un display, ya que todos los que est&eacute;n activos
+mostrar&aacute;n el mismo valor. En consecuencia, la escritura de los
+d&iacute;gitos en los displays debe hacerse mediante una estrategia de
+barrido peri&oacute;dico, en la que:<br>
+
+<ol>
+
+  <li>Cada display es activado, y mantenido encendido, s&oacute;lo el
+tiempo suficiente para que la retina perciba los segmentos encendidos.<br>
+
+  </li>
+
+  <li>Para que nuestro ojo perciba un valor estable en el display, es
+necesario refrescar el contenido (es decir, volver a recorrer los
+cuatro displays, reescribiendo su contenio) m&uacute;ltiples veces por
+segundo.</li>
+
+</ol>
+
+Esto implica que el c&oacute;digo usado deber&aacute; utilizar dos
+retardos distintos (el que mantiene encendido un display tras
+escribirlo, y el que controla la frecuencia del refresco
+peri&oacute;dico). El alumno deber&aacute;, por tanto, experimentar
+hasta encontrar valores que den una representaci&oacute;n estable, y
+que sean compatibles con el funcionamiento del contador.
+
+
+
+<br>
+
+<br>
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+
+
+  
+  
+  
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+
+
+
+
+  
+  
+  
+  
+  <title>Ejercicio 1: E/S por programa (PIO) mapeada en memoria</title>
+</head>
+
+
+<body>
+
+
+
+
+
+<h1 style="text-align: center;"> <b style=""><span style="font-size: 18pt;"></span></b></h1>
+
+
+
+
+
+<table style="width: 1098px; height: 155px;" border="0">
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+    <tr>
+
+
+
+
+
+      <td style="width: 21.25px;"><img style="width: 99px; height: 93px;" alt="" src="img/uma.png"><br>
+
+
+
+
+
+      </td>
+
+
+
+
+
+      <td style="width: 1164.97px;">
+      
+      
+      
+      
+      <h1 style="text-align: center;"><b style=""><span style="font-size: 18pt;">Ejercicio 1: E/S por programa (PIO)
+mapeada en memoria<br>
+
+
+
+
+
+      </span></b></h1>
+
+
+
+
+
+      </td>
+
+
+
+
+
+      <td style="width: 21.25px;"> <img style="width: 99px; height: 93px;" title="dac" src="img/dac.png"> </td>
+
+
+
+
+
+    </tr>
+
+
+
+
+
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+<h2>1. Objetivo</h2>
+El objetivo de este ejercicio es que el alumno escriba un driver de
+dispositivo, en BASIC, que permita al PIC16F877A usar el puerto B para
+encender, por turno, cada uno de los LEDs de la tira LED2 en la placa
+PicGenios; el programa repetir&aacute; la secuencia de encendidos y
+apagados en un bucle sin fin.<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+<h2>2. Sistema de test</h2>
+
+
+
+
+
+<br>
+
+
+
+
+
+La configuraci&oacute;n del sistema de pruebas simulador es la
+mostrada en la siguiente figura:<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+<div style="text-align: center;"><img style="width: 800px; height: 610px;" alt="" src="img/SistemaDeTest.png"><br>
+
+
+
+
+
+</div>
+
+
+
+
+
+<p>El 16F877A usar&aacute; los 8 bits del puerto paralelo de
+E/S B para ir encendiendo y apagando por turno, en orden creciente,
+cada uno de los ocho diodos LED de la tira,
+poniendo a 1 la l&iacute;nea adecuada. S&oacute;lo uno de los leds
+tiene que estar encendido en cada momento. &nbsp;El programa
+repetir&aacute; la secuencia de encendidos en un bucle sin fin.&nbsp;</p>
+<p><big><span style="font-weight: bold;">IMPORTANTE:</span></big> el
+programa
+PicSimLab proporciona una simulaci&oacute;n en tiempo real del
+comportamiento del hardware, por lo que es necesario incluir una espera
+(usando la instrucci&oacute;n WaitMs del Basic de PIC Simulator IDE)
+tras cada encendido de LED para que nuestro ojo tenga tiempo a percibir
+el cambio. Tener en cuenta que mientras PicSimLab es capaz de dar
+tiempo real, la emulaci&oacute;n que realiza PIC Simulator IDE no da
+tiempo real, por lo que cuando se est&eacute; probando o depurando un
+c&oacute;digo en PIC Simulator IDE los retardos deben deshabilitarse, o
+la ejecuci&oacute;n tardar&aacute; demasiado tiempo.</p>
+<p><big><span style="font-weight: bold;">IMPORTANTE:</span></big> Para
+ejecutar esta pr&aacute;ctica en PicSimLab debe deshabilitarse el
+Dip-switch del perif&eacute;rico RTC, de forma que la l&iacute;nea RB0
+funcione correctamente (leer el documento que describe los
+perif&eacute;ricos de la placa PicGenios para entender porqu&eacute;).</p>
+
+
+
+
+
+<br>
+
+
+
+
+
+<h2>3. Control del valor del puerto B</h2>
+
+
+<br>
+
+
+<p style="text-align: center;"><img style="width: 800px; height: 1087px;" alt="" src="img/figura2-3.png"></p>
+
+
+
+
+
+<p></p>
+
+
+
+
+<p>Como el 16F877A usa E/S mapeada por memoria, los registros de datos
+de entrada o salida asociados al puerto B (es decir, los latches
+conectados a las lineas del puerto) se acceden a trav&eacute;s de una
+direcci&oacute;n de memoria, concretamente la 06hl. Para hacer
+m&aacute;s legible el c&oacute;digo, el compilador BASIC permite usar
+un nombre simb&oacute;lico (la variable especial PORTB) para referirse
+a esa posici&oacute;n de memoria.</p>
+
+
+
+
+<p>Adicionalmente, el compilador permite referenciar individualmente
+cada bit del puerto B (de hecho, de cualquier registro con nombre). De
+esta forma, por ejemplo, la instrucci&oacute;n PORTB = 0 pone a <span style="font-weight: bold;">0</span> todas las lineas del puerto, mientras PORTB.0 = 1 pone a&nbsp;<span style="font-weight: bold;">1</span> la linea menos significativa del puerto (el bit 0, que encender&aacute; el segmento "a").</p>
+
+
+
+
+<br>
+
+
+
+
+
+<h2>4. Uso del registro TRISx para especificar direcci&oacute;n de la E/S</h2>
+
+
+
+
+Dado que en el PIC16F877A el puerto B es bidireccional, antes de usarlo
+es preciso configurar expl&iacute;citamente la direcci&oacute;n de cada
+linea. Esto se hace a trav&eacute;s del registro de control TRISB
+(ubicado en la posici&oacute;n 86h del mapa de memoria), en el que cada
+uno de sus 8 bits representa la direcci&oacute;n configurada para la
+linea, con un <span style="font-weight: bold;">1</span> indicando entrada y un <span style="font-weight: bold;">0</span>
+indicando salida. De nuevo el compilador BASIC ofrece una variable
+especial (TRISB) para dar un nombre simb&oacute;lico a la
+direcci&oacute;n 86h. Como en PORTB, asignar un valor a la viariable
+TRISB da simultaneamente valor a los 8 bits del registro TRISB, pero se
+puede tambi&eacute;n asignar valores a bits individuales usando la
+notaci&oacute;n TRISB.x, con x = 0 a 7.<br>
+
+
+
+
+<br>
+
+
+
+
+<h2>5. Programa BASIC de ejemplo</h2>
+
+
+
+
+Para ayudar en la puesta en marcha del ejercicio, se proporciona aqu&iacute; un <a href="src/Ejercicio_1.bas">programa de ejemplo</a> que enciende y apaga alternativamente los dos primeros LEDs de la tira conectada al puerto PORTB<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+</body>
+</html>

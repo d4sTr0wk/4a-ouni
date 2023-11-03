@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+
+
+
+
+
+  
+  
+  
+  
+  
+  <title>Ejercicio 2: E/S por programa (PIO) mapeada en memoria</title>
+</head>
+
+
+<body>
+
+
+
+
+
+
+<h1 style="text-align: center;"> <b style=""><span style="font-size: 18pt;"></span></b></h1>
+
+
+
+
+
+
+<table style="width: 1098px; height: 155px;" border="0">
+
+
+
+
+
+
+  <tbody>
+
+
+
+
+
+
+    <tr>
+
+
+
+
+
+
+      <td style="width: 21.25px;"><img style="width: 99px; height: 93px;" alt="" src="img/uma.png"><br>
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+      <td style="width: 1164.97px;">
+      
+      
+      
+      
+      
+      <h1 style="text-align: center;"><b style=""><span style="font-size: 18pt;">Ejercicio 2: E/S por programa (PIO)
+mapeada en memoria<br>
+
+
+
+
+
+
+      </span></b></h1>
+
+
+
+
+
+
+      </td>
+
+
+
+
+
+
+      <td style="width: 21.25px;"> <img style="width: 99px; height: 93px;" title="dac" src="img/dac.png"> </td>
+
+
+
+
+
+
+    </tr>
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  </tbody>
+</table>
+
+
+
+
+
+
+<h2>1. Objetivo</h2>
+
+
+
+
+
+El objetivo de este ejercicio es que el alumno escriba un driver de
+dispositivo, en BASIC, que permita al PIC16F877A usar los puertos D y A para
+controlar un display de 7 segmentos en el que vayan apareciendo, uno a uno y sin
+soluci&oacute;n de continuidad,&nbsp; todos los
+d&iacute;gitos del 0 al 9; esta visualizaci&oacute;n debe repetirse 10 veces.<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<h2>2. Sistema de test</h2>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+La configuraci&oacute;n del sistema de pruebas simulador es la
+mostrada en la siguiente figura:<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+<div style="text-align: center;"><img style="width: 800px; height: 610px;" alt="" src="img/SistemaDeTest.png"><br>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<p>El 16F877A usar&aacute; los 8 bits del puerto paralelo de
+E/S d para controlar (encendiendo o apagando segmentos individuales) el
+valor representado en el Display 1 (el m&aacute;s a la izquierda) de la placa PicGenios</p>
+
+
+
+
+
+
+<br>
+
+
+<h2>3. Control del display</h2>
+
+
+
+
+
+Cada display consta de 8 elementos controlables (7 segmentos y un punto
+decimal), organizados como muestra la figura:<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+<div style="text-align: center;"><img style="width: 177px; height: 300px;" alt="" src="img/Display.png">
+
+
+
+</div>
+
+
+En un sistema real el control del display se
+realizar&iacute;a conectando f&iacute;sicamente cada segmento a
+una linea distinta del puerto de E/S; el segmento se enciende poniendo
+la l&iacute;nea a <span style="font-weight: bold;">1</span>,
+y se apaga poniendo la linea a <span style="font-weight: bold;">0</span>.&nbsp;En
+PicSimLab estas conexiones est&aacute;n emuladas, y basta con poner a 1 el bit
+correspondiente del puerto D, siempre que hayamos activado el display
+poniendo a 1 la l&iacute;nea correspondiente del puerto A (ver la asignaci&oacute;n
+de l&iacute;neas a displays y segmentos en el apartado 2.5 del documento que explica los
+perif&eacute;ricos de la placa PicGenios).<br>
+
+
+
+<br>
+
+
+
+<p style="text-align: center;"><img style="width: 800px; height: 1087px;" alt="" src="img/figura2-3.png"></p>
+
+
+
+
+
+
+<p></p>
+
+
+<p>Como el 16F877A usa E/S mapeada por memoria, los registros de datos
+de entrada o salida asociados a los puertos D y A (es decir, los
+latches
+conectados a las lineas del puerto) se acceden a trav&eacute;s de las
+direcciones de memoria 08h y 05h. Para hacer
+m&aacute;s legible el c&oacute;digo, el compilador BASIC permite usar&nbsp;nombres
+simb&oacute;licos (las variables especiales PORTD y PORTA) para referirse
+a esas posici&oacute;nes de memoria.</p>
+
+
+
+
+<p>Recordar que el compilador permite referenciar individualmente
+cada bit del puerto A (de hecho, de cualquier registro con nombre), por
+lo que, por ejemplo, la instrucci&oacute;n&nbsp; PORTA.0 = 1 pone
+a&nbsp;<span style="font-weight: bold;">1</span> la linea menos significativa del puerto A (que NO es la que necesitamos para encender el display DIS1).</p>
+
+
+
+
+
+
+<h2>4. Uso del registro TRISx para especificar direcci&oacute;n de la E/S</h2>
+Al igual que en el Ejercicio 1, es necesario usar los registros TRISx
+(en este caso, TRISD y TRISA) para especificar la direcci&oacute;n de
+las
+l&iacute;neas de E/S digital. Dado que el puerto A por defecto arranca
+con las funcionalidades anal&oacute;gicas habilitadas, para esta
+pr&aacute;ctica es necesario tambi&eacute;n usar la directiva
+All_Digital de PIC Simulator IDE al inicio del programa, de forma que
+el puerto A opere como puerto de E/S digital.<br>
+
+
+
+
+
+<br>
+
+
+
+
+
+<h2>5. Programa BASIC de ejemplo</h2>
+
+
+
+
+Para ayudar en la puesta en marcha del ejercicio, se proporciona aqu&iacute; un <a href="src/Ejercicio_2.bas">programa de ejemplo</a> que visualiza en el display de 7 segmentos alternativamente un gui&oacute;n y un punto decimal.
+Usarlo como base para desarrollar el programa que haga aparecer en el display todos los d&iacute;gitos, de la forma requerida<br>
+
+
+
+
+
+
+<br>
+
+
+
+
+
+
+</body>
+</html>
