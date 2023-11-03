@@ -51,10 +51,10 @@ Line    Address Opcode  Instruction
 0047    0013    01A3    	CLRF 0x023
 0048    0014            ; 12: Endif
 0049    0014            L0004:
-0050    0014            ; 13: WaitMs 500
-0051    0014    30D2    	MOVLW 0xD2
+0050    0014            ; 13: WaitMs 1000
+0051    0014    30A6    	MOVLW 0xA6
 0052    0015    00A8    	MOVWF R4L
-0053    0016    3030    	MOVLW 0x30
+0053    0016    3061    	MOVLW 0x61
 0054    0017    00A9    	MOVWF R4H
 0055    0018    2057    	CALL DL02
 0056    0019            ; 14: Goto main
