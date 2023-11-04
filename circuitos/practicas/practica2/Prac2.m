@@ -102,7 +102,6 @@ figure (4); subplot (2,1,2); plot (ejex (1:round((longitud/9)+1)), magnitud (1:r
 title ('FFT');
 xlabel ('Frecuencia (Hz)'); ylabel('Magnitud')
 
-
 %%
 
 % 4.- Filtrado del ECG para eliminar la interferencia de la respiración (< 1 Hz)
@@ -128,22 +127,22 @@ BW = W0/Factor_calidad;
 % Mostramos el filtro, figura 3
 fvtool (b,a);
 % Aplicamos el filtro sobre la señal "ECG_mezclado"
-ECG_filtrado_respiracion = filter (b,a,ECG_filtrado1);
+ECG_filtrado2 = filter (b,a,ECG_filtrado1);
 % Dibujo la señal ECG_filtrado1 en función del tiempo y de la frecuencia
 
-% ECG_filtrado_respiracion en frecuencia = FFT
-longitud = length (ECG_filtrado_respiracion);
-senal_fft = fft (ECG_filtrado_respiracion, longitud);
+% ECG_filtrado2 en frecuencia = FFT
+longitud = length (ECG_filtrado2);
+senal_fft = fft (ECG_filtrado2, longitud);
 magnitud = abs (senal_fft);
 ejex = linspace (0, Fs-(Fs/longitud), longitud);
 
-figure (4); subplot (2,1,1); plot (t, ECG_filtrado_respiracion); grid();
+figure (6); subplot (2,1,1); plot (t, ECG_filtrado2); grid();
 title ('ECG Filtrado');
 xlabel ('Tiempo (s)');
 ylabel ('ECG Filtrado en mV');
-figure (4); subplot (2,1,2); plot (ejex (1:round((longitud/9)+1)), magnitud (1:round((longitud/9)+1))); grid;
+figure (6); subplot (2,1,2); plot (ejex (1:round((longitud/9)+1)), magnitud (1:round((longitud/9)+1))); grid();
 title ('FFT');
-xlabel ('Frecuencia (Hz)'); ylabel('Magnitud')
+xlabel ('Frecuencia (Hz)'); ylabel('Magnitud');
 
 %%
 
@@ -161,8 +160,21 @@ Hd = design(h, 'butter', 'MatchExactly', match);
 fvtool (Hd);
 ECG_filtrado3 = filter (Hd,ECG_filtrado1);
 % Dibujo la señal ECG_filtrado3 en función del tiempo y de la frecuencia
-
-% ------------------------
-% A RELLENAR POR EL ALUMNO
-% ------------------------
+% Longitud señal
+longitud = length (ECG_filtrado3);
+% Calculamos FFT
+senal_fft = fft(ECG_filtrado3, longitud);
+% Magnitud de señal
+magnitud = abs (senal_fft);
+% Vector con las muestras para el eje X
+ejex = linspace (0,Fs-(Fs/longitud),longitud);
+% Dibujo ECG_filtrado3 en función de tiempo y frecuencia
+figure (8); subplot (2,1,1); plot (t, ECG_filtrado3); grid();
+title ('ECG filtrado 3 en base al tiempo');
+xlabel ('Tiempo (s)');
+ylabel ('ECG Filtrado\_3 en mV');
+figure (8); subplot (2,1,2);plot (ejex(1:(longitud/9)+1), magnitud(1:(longitud/9)+1)); grid();
+title ('EGC filtrado 3 en base a frecuencia');
+xlabel ('Tiempo (s)');
+ylabel ('Magnitud');
 
