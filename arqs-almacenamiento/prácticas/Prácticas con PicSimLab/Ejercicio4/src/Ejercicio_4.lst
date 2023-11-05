@@ -1,0 +1,115 @@
+---------------------------------------------
+PIC ASSEMBLER LISTING
+Line    Address Opcode  Instruction
+---------------------------------------------
+0001    0000            ; Compiled with: PIC Simulator IDE v8.55
+0002    0000            ; Microcontroller model: PIC16F877A
+0003    0000            ; Clock frequency: 1.0MHz
+0004    0000            ;
+0005    0000            	R0L EQU 0x020
+0006    0000            	R0H EQU 0x021
+0007    0000            	R0HL EQU 0x020
+0008    0000            ;       The address of 'i' (byte) (global) is 0x022
+0009    0000            ;       The address of 'auxiliar' (byte) (global) is 0x023
+0010    0000            	ORG 0x0000
+0011    0000    118A    	BCF PCLATH,3
+0012    0001    120A    	BCF PCLATH,4
+0013    0002    2805    	GOTO L0002
+0014    0003            	ORG 0x0004
+0015    0004    0009    	RETFIE
+0016    0005            ; User code start
+0017    0005            L0002:
+0018    0005            ; 1: TRISB = 1
+0019    0005    3001    	MOVLW 0x01
+0020    0006    1683    	BSF STATUS,RP0
+0021    0007    0086    	MOVWF TRISB
+0022    0008            ; 2: TRISD = 0
+0023    0008    0188    	CLRF TRISD
+0024    0009    1283    	BCF STATUS,RP0
+0025    000A            ; 3: PORTB = 0
+0026    000A    0186    	CLRF PORTB
+0027    000B            ; 4: PORTD = 0
+0028    000B    0188    	CLRF PORTD
+0029    000C            ; 5: INTCON = 0
+0030    000C    018B    	CLRF INTCON
+0031    000D            ; 6: Dim i As Byte
+0032    000D            ; 7: Dim auxiliar As Byte
+0033    000D            ; 8: main:
+0034    000D            L0001:
+0035    000D            ; 9: For i = 0 To 5 Step 1
+0036    000D    01A2    	CLRF 0x022
+0037    000E            L0003:
+0038    000E    0822    	MOVF 0x022,W
+0039    000F    3C05    	SUBLW 0x05
+0040    0010    1C03    	BTFSS STATUS,C
+0041    0011    2833    	GOTO L0004
+0042    0012            ; 10: auxiliar = (1 << i)
+0043    0012    3001    	MOVLW 0x01
+0044    0013    00A0    	MOVWF R0L
+0045    0014    01A1    	CLRF R0H
+0046    0015    0822    	MOVF 0x022,W
+0047    0016    2039    	CALL SL00
+0048    0017    0820    	MOVF R0L,W
+0049    0018    00A3    	MOVWF 0x023
+0050    0019            ; 11: If (PORTB And auxiliar) = auxiliar Then
+0051    0019            	oshonsoft_temp_b1 EQU 0x024
+0052    0019    0806    	MOVF PORTB,W
+0053    001A    00A0    	MOVWF R0L
+0054    001B    0823    	MOVF 0x023,W
+0055    001C    0520    	ANDWF R0L,W
+0056    001D    00A4    	MOVWF 0x024
+0057    001E            ;       oshonsoft_temp_bit2 EQU 0x025,0
+0058    001E    1025    	BCF 0x025,0
+0059    001F    0824    	MOVF 0x024,W
+0060    0020    0223    	SUBWF 0x023,W
+0061    0021    1D03    	BTFSS STATUS,Z
+0062    0022    2824    	GOTO L0006
+0063    0023    1425    	BSF 0x025,0
+0064    0024            L0006:
+0065    0024    1C25    	BTFSS 0x025,0
+0066    0025    282E    	GOTO L0005
+0067    0026            ; 12: PORTD = (1 << i)
+0068    0026    3001    	MOVLW 0x01
+0069    0027    00A0    	MOVWF R0L
+0070    0028    01A1    	CLRF R0H
+0071    0029    0822    	MOVF 0x022,W
+0072    002A    2039    	CALL SL00
+0073    002B    0820    	MOVF R0L,W
+0074    002C    0088    	MOVWF PORTD
+0075    002D            ; 13: Else
+0076    002D    282F    	GOTO L0007
+0077    002E            L0005:
+0078    002E            ; 14: PORTD.7 = 1
+0079    002E    1788    	BSF PORTD,7
+0080    002F            ; 15: Endif
+0081    002F            L0007:
+0082    002F            ; 16: Next i
+0083    002F    3001    	MOVLW 0x01
+0084    0030    07A2    	ADDWF 0x022,F
+0085    0031    1C03    	BTFSS STATUS,C
+0086    0032    280E    	GOTO L0003
+0087    0033            L0004:
+0088    0033            ; 17: Goto main
+0089    0033    280D    	GOTO L0001
+0090    0034            ; 18: End
+0091    0034    2834    L0008:	GOTO L0008
+0092    0035            ; End of user code
+0093    0035    2835    L0009:	GOTO L0009
+0094    0036            ;
+0095    0036            ;
+0096    0036            ;
+0097    0036            ;
+0098    0036            ; Word ShiftLeft Routine
+0099    0036    1003    SL01:	BCF STATUS,C
+0100    0037    0DA0    	RLF R0L,F
+0101    0038    0DA1    	RLF R0H,F
+0102    0039    3EFF    SL00:	ADDLW 0xFF
+0103    003A    1803    	BTFSC STATUS,C
+0104    003B    2836    	GOTO SL01
+0105    003C    0008    	RETURN
+0106    003D            ;
+0107    003D            ;
+0108    003D            ; End of listing
+0109    003D            	END
+---------------------------------------------
+Number of errors = 0
