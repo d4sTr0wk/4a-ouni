@@ -9,7 +9,7 @@ OPTION_REG.T0CS = False
 OPTION_REG.INTEDG = False  // External interrupt RB0/INT triggered on falling
 INTCON.GIE = 1
 INTCON.PEIE = 0
-INTCON.TMR0IE = 1
+INTCON.TMR0IE = 0
 INTCON.INTE = 1
 INTCON.RBIE = 0
 INTCON.T0IF = 0
@@ -27,10 +27,10 @@ main:
 			solution = last_reg - first_reg
 		Endif
 		flagrb = 0
-		display = solution / 16
+		display = solution >> 4
 		Gosub calculadisplay
 		PORTC = display
-		display = solution Mod 16
+		display = solution And 0x0f
 		Gosub calculadisplay
 		PORTD = display
 		INTCON.GIE = 1
@@ -78,6 +78,8 @@ On Interrupt
 		first_reg = TMR0
 		flagrb = 1
 		INTCON.INTF = 0  // external interrupt cleared
+	Else
+		INTCON = %10010000
 	Endif
 Resume                                            
 	
