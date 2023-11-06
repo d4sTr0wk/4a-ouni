@@ -8,9 +8,9 @@ Dim auxiliar As Byte
 main:
 	For i = 0 To 5 Step 1
 		auxiliar = (1 << i)
-		If (PORTB And auxiliar) = auxiliar Then
+		If PORTB.i = 0 Then
 			PORTD = (1 << i)
-			While PORTB.i = 1
+			While PORTB.i = 0
 			Wend
 		Else
 			PORTD = %10000000

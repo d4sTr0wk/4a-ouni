@@ -47,118 +47,110 @@ Line    Address Opcode  Instruction
 0043    000E    0825    	MOVF 0x025,W
 0044    000F    3C05    	SUBLW 0x05
 0045    0010    1C03    	BTFSS STATUS,C
-0046    0011    283D    	GOTO L0004
+0046    0011    2838    	GOTO L0004
 0047    0012            ; 10: auxiliar = (1 << i)
 0048    0012    3001    	MOVLW 0x01
 0049    0013    00A0    	MOVWF R0L
 0050    0014    01A1    	CLRF R0H
 0051    0015    0825    	MOVF 0x025,W
-0052    0016    2060    	CALL SL00
+0052    0016    205B    	CALL SL00
 0053    0017    0820    	MOVF R0L,W
 0054    0018    00A6    	MOVWF 0x026
-0055    0019            ; 11: If (PORTB And auxiliar) = auxiliar Then
-0056    0019            	oshonsoft_temp_b1 EQU 0x027
-0057    0019    0806    	MOVF PORTB,W
-0058    001A    00A0    	MOVWF R0L
-0059    001B    0826    	MOVF 0x026,W
-0060    001C    0520    	ANDWF R0L,W
-0061    001D    00A7    	MOVWF 0x027
-0062    001E            ;       oshonsoft_temp_bit2 EQU 0x028,0
-0063    001E    1028    	BCF 0x028,0
-0064    001F    0827    	MOVF 0x027,W
-0065    0020    0226    	SUBWF 0x026,W
-0066    0021    1D03    	BTFSS STATUS,Z
-0067    0022    2824    	GOTO L0006
-0068    0023    1428    	BSF 0x028,0
-0069    0024            L0006:
-0070    0024    1C28    	BTFSS 0x028,0
-0071    0025    2837    	GOTO L0005
-0072    0026            ; 12: PORTD = (1 << i)
-0073    0026    3001    	MOVLW 0x01
-0074    0027    00A0    	MOVWF R0L
-0075    0028    01A1    	CLRF R0H
-0076    0029    0825    	MOVF 0x025,W
-0077    002A    2060    	CALL SL00
-0078    002B    0820    	MOVF R0L,W
-0079    002C    0088    	MOVWF PORTD
-0080    002D            ; 13: While PORTB.i = 1
-0081    002D            L0007:
-0082    002D    0806    	MOVF PORTB,W
-0083    002E    00A2    	MOVWF R1L
-0084    002F    01A3    	CLRF R1H
-0085    0030    0825    	MOVF 0x025,W
-0086    0031    00A1    	MOVWF R0H
-0087    0032    2040    	CALL BI01
-0088    0033    1C22    	BTFSS R1L,0
-0089    0034    2836    	GOTO L0008
-0090    0035            ; 14: Wend
-0091    0035    282D    	GOTO L0007
-0092    0036            L0008:
-0093    0036            ; 15: Else
-0094    0036    2839    	GOTO L0009
-0095    0037            L0005:
-0096    0037            ; 16: PORTD = %10000000
-0097    0037    3080    	MOVLW 0x80
-0098    0038    0088    	MOVWF PORTD
-0099    0039            ; 17: Endif
-0100    0039            L0009:
-0101    0039            ; 18: Next i
-0102    0039    3001    	MOVLW 0x01
-0103    003A    07A5    	ADDWF 0x025,F
-0104    003B    1C03    	BTFSS STATUS,C
-0105    003C    280E    	GOTO L0003
-0106    003D            L0004:
-0107    003D            ; 19: Goto main
-0108    003D    280D    	GOTO L0001
-0109    003E            ; 20: End
-0110    003E    283E    L0010:	GOTO L0010
-0111    003F            ; End of user code
-0112    003F    283F    L0011:	GOTO L0011
-0113    0040            ;
-0114    0040            ;
-0115    0040            ; Bit Index Routine
-0116    0040    0AA1    BI01:	INCF R0H,F
-0117    0041    0DA2    	RLF R1L,F
-0118    0042    0DA3    	RLF R1H,F
-0119    0043    0CA3    BI02:	RRF R1H,F
-0120    0044    0CA2    	RRF R1L,F
-0121    0045    0BA1    	DECFSZ R0H,F
-0122    0046    2843    	GOTO BI02
-0123    0047    0008    	RETURN
-0124    0048    3011    BI10:	MOVLW 0x11
-0125    0049    00A4    	MOVWF R2L
-0126    004A    0AA3    	INCF R1H,F
-0127    004B    0DA0    	RLF R0L,F
-0128    004C    0DA1    	RLF R0H,F
-0129    004D    2851    	GOTO BI11
-0130    004E    1003    BI12:	BCF STATUS,C
-0131    004F    1820    	BTFSC R0L,0
-0132    0050    1403    	BSF STATUS,C
-0133    0051    0CA1    BI11:	RRF R0H,F
-0134    0052    0CA0    	RRF R0L,F
-0135    0053    03A3    	DECF R1H,F
-0136    0054    1903    	BTFSC STATUS,Z
-0137    0055    2059    	CALL BI13
-0138    0056    0BA4    	DECFSZ R2L,F
-0139    0057    284E    	GOTO BI12
-0140    0058    0008    	RETURN
-0141    0059    1020    BI13:	BCF R0L,0
-0142    005A    1822    	BTFSC R1L,0
-0143    005B    1420    	BSF R0L,0
-0144    005C    0008    	RETURN
-0145    005D            ;
-0146    005D            ;
-0147    005D            ; Word ShiftLeft Routine
-0148    005D    1003    SL01:	BCF STATUS,C
-0149    005E    0DA0    	RLF R0L,F
-0150    005F    0DA1    	RLF R0H,F
-0151    0060    3EFF    SL00:	ADDLW 0xFF
-0152    0061    1803    	BTFSC STATUS,C
-0153    0062    285D    	GOTO SL01
-0154    0063    0008    	RETURN
-0155    0064            ;
-0156    0064            ;
-0157    0064            ; End of listing
-0158    0064            	END
+0055    0019            ; 11: If PORTB.i = 0 Then
+0056    0019    0806    	MOVF PORTB,W
+0057    001A    00A2    	MOVWF R1L
+0058    001B    01A3    	CLRF R1H
+0059    001C    0825    	MOVF 0x025,W
+0060    001D    00A1    	MOVWF R0H
+0061    001E    203B    	CALL BI01
+0062    001F    1822    	BTFSC R1L,0
+0063    0020    2832    	GOTO L0005
+0064    0021            ; 12: PORTD = (1 << i)
+0065    0021    3001    	MOVLW 0x01
+0066    0022    00A0    	MOVWF R0L
+0067    0023    01A1    	CLRF R0H
+0068    0024    0825    	MOVF 0x025,W
+0069    0025    205B    	CALL SL00
+0070    0026    0820    	MOVF R0L,W
+0071    0027    0088    	MOVWF PORTD
+0072    0028            ; 13: While PORTB.i = 0
+0073    0028            L0006:
+0074    0028    0806    	MOVF PORTB,W
+0075    0029    00A2    	MOVWF R1L
+0076    002A    01A3    	CLRF R1H
+0077    002B    0825    	MOVF 0x025,W
+0078    002C    00A1    	MOVWF R0H
+0079    002D    203B    	CALL BI01
+0080    002E    1822    	BTFSC R1L,0
+0081    002F    2831    	GOTO L0007
+0082    0030            ; 14: Wend
+0083    0030    2828    	GOTO L0006
+0084    0031            L0007:
+0085    0031            ; 15: Else
+0086    0031    2834    	GOTO L0008
+0087    0032            L0005:
+0088    0032            ; 16: PORTD = %10000000
+0089    0032    3080    	MOVLW 0x80
+0090    0033    0088    	MOVWF PORTD
+0091    0034            ; 17: Endif
+0092    0034            L0008:
+0093    0034            ; 18: Next i
+0094    0034    3001    	MOVLW 0x01
+0095    0035    07A5    	ADDWF 0x025,F
+0096    0036    1C03    	BTFSS STATUS,C
+0097    0037    280E    	GOTO L0003
+0098    0038            L0004:
+0099    0038            ; 19: Goto main
+0100    0038    280D    	GOTO L0001
+0101    0039            ; 20: End
+0102    0039    2839    L0009:	GOTO L0009
+0103    003A            ; End of user code
+0104    003A    283A    L0010:	GOTO L0010
+0105    003B            ;
+0106    003B            ;
+0107    003B            ; Bit Index Routine
+0108    003B    0AA1    BI01:	INCF R0H,F
+0109    003C    0DA2    	RLF R1L,F
+0110    003D    0DA3    	RLF R1H,F
+0111    003E    0CA3    BI02:	RRF R1H,F
+0112    003F    0CA2    	RRF R1L,F
+0113    0040    0BA1    	DECFSZ R0H,F
+0114    0041    283E    	GOTO BI02
+0115    0042    0008    	RETURN
+0116    0043    3011    BI10:	MOVLW 0x11
+0117    0044    00A4    	MOVWF R2L
+0118    0045    0AA3    	INCF R1H,F
+0119    0046    0DA0    	RLF R0L,F
+0120    0047    0DA1    	RLF R0H,F
+0121    0048    284C    	GOTO BI11
+0122    0049    1003    BI12:	BCF STATUS,C
+0123    004A    1820    	BTFSC R0L,0
+0124    004B    1403    	BSF STATUS,C
+0125    004C    0CA1    BI11:	RRF R0H,F
+0126    004D    0CA0    	RRF R0L,F
+0127    004E    03A3    	DECF R1H,F
+0128    004F    1903    	BTFSC STATUS,Z
+0129    0050    2054    	CALL BI13
+0130    0051    0BA4    	DECFSZ R2L,F
+0131    0052    2849    	GOTO BI12
+0132    0053    0008    	RETURN
+0133    0054    1020    BI13:	BCF R0L,0
+0134    0055    1822    	BTFSC R1L,0
+0135    0056    1420    	BSF R0L,0
+0136    0057    0008    	RETURN
+0137    0058            ;
+0138    0058            ;
+0139    0058            ; Word ShiftLeft Routine
+0140    0058    1003    SL01:	BCF STATUS,C
+0141    0059    0DA0    	RLF R0L,F
+0142    005A    0DA1    	RLF R0H,F
+0143    005B    3EFF    SL00:	ADDLW 0xFF
+0144    005C    1803    	BTFSC STATUS,C
+0145    005D    2858    	GOTO SL01
+0146    005E    0008    	RETURN
+0147    005F            ;
+0148    005F            ;
+0149    005F            ; End of listing
+0150    005F            	END
 ---------------------------------------------
 Number of errors = 0
