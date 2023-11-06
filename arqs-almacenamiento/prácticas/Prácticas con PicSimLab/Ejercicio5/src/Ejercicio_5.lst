@@ -1,0 +1,371 @@
+---------------------------------------------
+PIC ASSEMBLER LISTING
+Line    Address Opcode  Instruction
+---------------------------------------------
+0001    0000            ; Compiled with: PIC Simulator IDE v8.55
+0002    0000            ; Microcontroller model: PIC16F877A
+0003    0000            ; Clock frequency: 4.0MHz
+0004    0000            ;
+0005    0000            	R0L EQU 0x020
+0006    0000            	R0H EQU 0x021
+0007    0000            	R0HL EQU 0x020
+0008    0000            	W_TEMP EQU 0x07F
+0009    0000            	STATUS_TEMP EQU 0x07E
+0010    0000            ;       The address of 'd1' (byte) (global) is 0x023
+0011    0000            ;       The address of 'flagtimer' (bit) (global) is 0x024,0
+0012    0000            ;       The address of 'display' (byte) (global) is 0x022
+0013    0000            ;       The address of 'display1' (byte) (global) is 0x025
+0014    0000            ;       The address of 'display2' (byte) (global) is 0x026
+0015    0000            	ORG 0x0000
+0016    0000    118A    	BCF PCLATH,3
+0017    0001    120A    	BCF PCLATH,4
+0018    0002    280E    	GOTO L0004
+0019    0003            	ORG 0x0004
+0020    0004    00FF    	MOVWF W_TEMP
+0021    0005    0E03    	SWAPF STATUS,W
+0022    0006    0183    	CLRF STATUS
+0023    0007    00FE    	MOVWF STATUS_TEMP
+0024    0008    20BB    	CALL L0005
+0025    0009    0E7E    	SWAPF STATUS_TEMP,W
+0026    000A    0083    	MOVWF STATUS
+0027    000B    0EFF    	SWAPF W_TEMP,F
+0028    000C    0E7F    	SWAPF W_TEMP,W
+0029    000D    0009    	RETFIE
+0030    000E            ; User code start
+0031    000E            L0004:
+0032    000E            ; 1: Dim d1 As Byte
+0033    000E            ; 2: Dim flagtimer As Bit
+0034    000E            ; 3: Dim display As Byte
+0035    000E            ; 4: Dim display1 As Byte
+0036    000E            ; 5: Dim display2 As Byte
+0037    000E            ; 6: d1 = 0
+0038    000E    01A3    	CLRF 0x023
+0039    000F            ; 7: flagtimer = 0
+0040    000F    1024    	BCF 0x024,0
+0041    0010            ; 8: OPTION_REG.T0CS = False
+0042    0010    1683    	BSF STATUS,RP0
+0043    0011    1281    	BCF OPTION_REG,5
+0044    0012    1283    	BCF STATUS,RP0
+0045    0013            ; 9: INTCON = %10110000
+0046    0013    30B0    	MOVLW 0xB0
+0047    0014    008B    	MOVWF INTCON
+0048    0015            ; 10: TRISB = %00000001
+0049    0015    3001    	MOVLW 0x01
+0050    0016    1683    	BSF STATUS,RP0
+0051    0017    0086    	MOVWF TRISB
+0052    0018            ; 11: TRISA = 0
+0053    0018    0185    	CLRF TRISA
+0054    0019            ; 12: TRISD = 0
+0055    0019    0188    	CLRF TRISD
+0056    001A    1283    	BCF STATUS,RP0
+0057    001B            ; 13: PORTA = %00110000  //Displays 3 y 4 activados
+0058    001B    3030    	MOVLW 0x30
+0059    001C    0085    	MOVWF PORTA
+0060    001D            ; 14: main:
+0061    001D            L0001:
+0062    001D            ; 15: // Mientras se calcula el número no pueden haber interrupciones
+0063    001D            ; 16: INTCON.GIE = 0
+0064    001D    138B    	BCF INTCON,7
+0065    001E            ; 17: display = d1 >> 4
+0066    001E    0823    	MOVF 0x023,W
+0067    001F    00A0    	MOVWF R0L
+0068    0020    01A1    	CLRF R0H
+0069    0021    3004    	MOVLW 0x04
+0070    0022    20CA    	CALL SR00
+0071    0023    0820    	MOVF R0L,W
+0072    0024    00A2    	MOVWF 0x022
+0073    0025            ; 18: Gosub calculadisplay
+0074    0025    204B    	CALL L0003
+0075    0026            ; 19: display1 = display
+0076    0026    0822    	MOVF 0x022,W
+0077    0027    00A5    	MOVWF 0x025
+0078    0028            ; 20: display = d1 And 0x0f
+0079    0028    0823    	MOVF 0x023,W
+0080    0029    00A0    	MOVWF R0L
+0081    002A    300F    	MOVLW 0x0F
+0082    002B    0520    	ANDWF R0L,W
+0083    002C    00A2    	MOVWF 0x022
+0084    002D            ; 21: Gosub calculadisplay
+0085    002D    204B    	CALL L0003
+0086    002E            ; 22: display2 = display
+0087    002E    0822    	MOVF 0x022,W
+0088    002F    00A6    	MOVWF 0x026
+0089    0030            ; 23: INTCON.GIE = 1
+0090    0030    178B    	BSF INTCON,7
+0091    0031            ; 24: TMR0 = 0
+0092    0031    0181    	CLRF TMR0
+0093    0032            ; 25: While flagtimer = 0
+0094    0032            L0006:
+0095    0032    1824    	BTFSC 0x024,0
+0096    0033    283D    	GOTO L0007
+0097    0034            ; 26: PORTA = %00100000
+0098    0034    3020    	MOVLW 0x20
+0099    0035    0085    	MOVWF PORTA
+0100    0036            ; 27: PORTD = display1
+0101    0036    0825    	MOVF 0x025,W
+0102    0037    0088    	MOVWF PORTD
+0103    0038            ; 28: PORTA = %00010000
+0104    0038    3010    	MOVLW 0x10
+0105    0039    0085    	MOVWF PORTA
+0106    003A            ; 29: PORTD = display2
+0107    003A    0826    	MOVF 0x026,W
+0108    003B    0088    	MOVWF PORTD
+0109    003C            ; 30: Wend
+0110    003C    2832    	GOTO L0006
+0111    003D            L0007:
+0112    003D            ; 31: If flagtimer = 1 Then
+0113    003D    1C24    	BTFSS 0x024,0
+0114    003E    2840    	GOTO L0008
+0115    003F            ; 32: Gosub nextd1
+0116    003F    2042    	CALL L0002
+0117    0040            ; 33: Endif
+0118    0040            L0008:
+0119    0040            ; 34: Goto main
+0120    0040    281D    	GOTO L0001
+0121    0041            ; 35: End
+0122    0041    2841    L0009:	GOTO L0009
+0123    0042            ; 36: nextd1:
+0124    0042            L0002:
+0125    0042            ; 37: If d1 = 32 Then
+0126    0042    0823    	MOVF 0x023,W
+0127    0043    3C20    	SUBLW 0x20
+0128    0044    1D03    	BTFSS STATUS,Z
+0129    0045    2848    	GOTO L0010
+0130    0046            ; 38: d1 = 0
+0131    0046    01A3    	CLRF 0x023
+0132    0047            ; 39: Else
+0133    0047    2849    	GOTO L0011
+0134    0048            L0010:
+0135    0048            ; 40: d1 = d1 + 1
+0136    0048    0AA3    	INCF 0x023,F
+0137    0049            ; 41: Endif
+0138    0049            L0011:
+0139    0049            ; 42: flagtimer = 0
+0140    0049    1024    	BCF 0x024,0
+0141    004A            ; 43: Return
+0142    004A    0008    	RETURN
+0143    004B            ; 44: calculadisplay:
+0144    004B            L0003:
+0145    004B            ; 45: Select Case display
+0146    004B            ; 46: Case 0
+0147    004B    0822    	MOVF 0x022,W
+0148    004C    3C00    	SUBLW 0x00
+0149    004D    1D03    	BTFSS STATUS,Z
+0150    004E    2852    	GOTO L0012
+0151    004F            ; 47: display = %00111111
+0152    004F    303F    	MOVLW 0x3F
+0153    0050    00A2    	MOVWF 0x022
+0154    0051            ; 48: Case 1
+0155    0051    28BA    	GOTO L0013
+0156    0052            L0012:
+0157    0052    0822    	MOVF 0x022,W
+0158    0053    3C01    	SUBLW 0x01
+0159    0054    1D03    	BTFSS STATUS,Z
+0160    0055    2859    	GOTO L0014
+0161    0056            ; 49: display = %00000110
+0162    0056    3006    	MOVLW 0x06
+0163    0057    00A2    	MOVWF 0x022
+0164    0058            ; 50: Case 2
+0165    0058    28BA    	GOTO L0015
+0166    0059            L0014:
+0167    0059    0822    	MOVF 0x022,W
+0168    005A    3C02    	SUBLW 0x02
+0169    005B    1D03    	BTFSS STATUS,Z
+0170    005C    2860    	GOTO L0016
+0171    005D            ; 51: display = %01011011
+0172    005D    305B    	MOVLW 0x5B
+0173    005E    00A2    	MOVWF 0x022
+0174    005F            ; 52: Case 3
+0175    005F    28BA    	GOTO L0017
+0176    0060            L0016:
+0177    0060    0822    	MOVF 0x022,W
+0178    0061    3C03    	SUBLW 0x03
+0179    0062    1D03    	BTFSS STATUS,Z
+0180    0063    2867    	GOTO L0018
+0181    0064            ; 53: display = %01001111
+0182    0064    304F    	MOVLW 0x4F
+0183    0065    00A2    	MOVWF 0x022
+0184    0066            ; 54: Case 4
+0185    0066    28BA    	GOTO L0019
+0186    0067            L0018:
+0187    0067    0822    	MOVF 0x022,W
+0188    0068    3C04    	SUBLW 0x04
+0189    0069    1D03    	BTFSS STATUS,Z
+0190    006A    286E    	GOTO L0020
+0191    006B            ; 55: display = %01100110
+0192    006B    3066    	MOVLW 0x66
+0193    006C    00A2    	MOVWF 0x022
+0194    006D            ; 56: Case 5
+0195    006D    28BA    	GOTO L0021
+0196    006E            L0020:
+0197    006E    0822    	MOVF 0x022,W
+0198    006F    3C05    	SUBLW 0x05
+0199    0070    1D03    	BTFSS STATUS,Z
+0200    0071    2875    	GOTO L0022
+0201    0072            ; 57: display = %01101101
+0202    0072    306D    	MOVLW 0x6D
+0203    0073    00A2    	MOVWF 0x022
+0204    0074            ; 58: Case 6
+0205    0074    28BA    	GOTO L0023
+0206    0075            L0022:
+0207    0075    0822    	MOVF 0x022,W
+0208    0076    3C06    	SUBLW 0x06
+0209    0077    1D03    	BTFSS STATUS,Z
+0210    0078    287C    	GOTO L0024
+0211    0079            ; 59: display = %01111101
+0212    0079    307D    	MOVLW 0x7D
+0213    007A    00A2    	MOVWF 0x022
+0214    007B            ; 60: Case 7
+0215    007B    28BA    	GOTO L0025
+0216    007C            L0024:
+0217    007C    0822    	MOVF 0x022,W
+0218    007D    3C07    	SUBLW 0x07
+0219    007E    1D03    	BTFSS STATUS,Z
+0220    007F    2883    	GOTO L0026
+0221    0080            ; 61: display = %00000111
+0222    0080    3007    	MOVLW 0x07
+0223    0081    00A2    	MOVWF 0x022
+0224    0082            ; 62: Case 8
+0225    0082    28BA    	GOTO L0027
+0226    0083            L0026:
+0227    0083    0822    	MOVF 0x022,W
+0228    0084    3C08    	SUBLW 0x08
+0229    0085    1D03    	BTFSS STATUS,Z
+0230    0086    288A    	GOTO L0028
+0231    0087            ; 63: display = %01111111
+0232    0087    307F    	MOVLW 0x7F
+0233    0088    00A2    	MOVWF 0x022
+0234    0089            ; 64: Case 9
+0235    0089    28BA    	GOTO L0029
+0236    008A            L0028:
+0237    008A    0822    	MOVF 0x022,W
+0238    008B    3C09    	SUBLW 0x09
+0239    008C    1D03    	BTFSS STATUS,Z
+0240    008D    2891    	GOTO L0030
+0241    008E            ; 65: display = %01100111
+0242    008E    3067    	MOVLW 0x67
+0243    008F    00A2    	MOVWF 0x022
+0244    0090            ; 66: Case 10
+0245    0090    28BA    	GOTO L0031
+0246    0091            L0030:
+0247    0091    0822    	MOVF 0x022,W
+0248    0092    3C0A    	SUBLW 0x0A
+0249    0093    1D03    	BTFSS STATUS,Z
+0250    0094    2898    	GOTO L0032
+0251    0095            ; 67: display = %01110111
+0252    0095    3077    	MOVLW 0x77
+0253    0096    00A2    	MOVWF 0x022
+0254    0097            ; 68: Case 11
+0255    0097    28BA    	GOTO L0033
+0256    0098            L0032:
+0257    0098    0822    	MOVF 0x022,W
+0258    0099    3C0B    	SUBLW 0x0B
+0259    009A    1D03    	BTFSS STATUS,Z
+0260    009B    289F    	GOTO L0034
+0261    009C            ; 69: display = %01111100
+0262    009C    307C    	MOVLW 0x7C
+0263    009D    00A2    	MOVWF 0x022
+0264    009E            ; 70: Case 12
+0265    009E    28BA    	GOTO L0035
+0266    009F            L0034:
+0267    009F    0822    	MOVF 0x022,W
+0268    00A0    3C0C    	SUBLW 0x0C
+0269    00A1    1D03    	BTFSS STATUS,Z
+0270    00A2    28A6    	GOTO L0036
+0271    00A3            ; 71: display = %00111001
+0272    00A3    3039    	MOVLW 0x39
+0273    00A4    00A2    	MOVWF 0x022
+0274    00A5            ; 72: Case 13
+0275    00A5    28BA    	GOTO L0037
+0276    00A6            L0036:
+0277    00A6    0822    	MOVF 0x022,W
+0278    00A7    3C0D    	SUBLW 0x0D
+0279    00A8    1D03    	BTFSS STATUS,Z
+0280    00A9    28AD    	GOTO L0038
+0281    00AA            ; 73: display = %01011110
+0282    00AA    305E    	MOVLW 0x5E
+0283    00AB    00A2    	MOVWF 0x022
+0284    00AC            ; 74: Case 14
+0285    00AC    28BA    	GOTO L0039
+0286    00AD            L0038:
+0287    00AD    0822    	MOVF 0x022,W
+0288    00AE    3C0E    	SUBLW 0x0E
+0289    00AF    1D03    	BTFSS STATUS,Z
+0290    00B0    28B4    	GOTO L0040
+0291    00B1            ; 75: display = %01111001
+0292    00B1    3079    	MOVLW 0x79
+0293    00B2    00A2    	MOVWF 0x022
+0294    00B3            ; 76: Case 15
+0295    00B3    28BA    	GOTO L0041
+0296    00B4            L0040:
+0297    00B4    0822    	MOVF 0x022,W
+0298    00B5    3C0F    	SUBLW 0x0F
+0299    00B6    1D03    	BTFSS STATUS,Z
+0300    00B7    28BA    	GOTO L0042
+0301    00B8            ; 77: display = %01110001
+0302    00B8    3071    	MOVLW 0x71
+0303    00B9    00A2    	MOVWF 0x022
+0304    00BA            ; 78: EndSelect
+0305    00BA            L0042:
+0306    00BA            L0041:
+0307    00BA            L0039:
+0308    00BA            L0037:
+0309    00BA            L0035:
+0310    00BA            L0033:
+0311    00BA            L0031:
+0312    00BA            L0029:
+0313    00BA            L0027:
+0314    00BA            L0025:
+0315    00BA            L0023:
+0316    00BA            L0021:
+0317    00BA            L0019:
+0318    00BA            L0017:
+0319    00BA            L0015:
+0320    00BA            L0013:
+0321    00BA            ; 79: Return
+0322    00BA    0008    	RETURN
+0323    00BB            ; 80: On Interrupt
+0324    00BB            L0005:
+0325    00BB            ; 81: If INTCON.INTF = 1 Then
+0326    00BB    1C8B    	BTFSS 0x00B,1
+0327    00BC    28C1    	GOTO L0043
+0328    00BD            ; 82: Toggle INTCON.TMR0IE
+0329    00BD    3020    	MOVLW 0x20
+0330    00BE    068B    	XORWF INTCON,F
+0331    00BF            ; 83: flagtimer = 0
+0332    00BF    1024    	BCF 0x024,0
+0333    00C0            ; 84: INTCON.INTF = 0
+0334    00C0    108B    	BCF INTCON,1
+0335    00C1            ; 85: Endif
+0336    00C1            L0043:
+0337    00C1            ; 86: If INTCON.T0IF = 1 Then
+0338    00C1    1D0B    	BTFSS 0x00B,2
+0339    00C2    28C5    	GOTO L0044
+0340    00C3            ; 87: flagtimer = 1
+0341    00C3    1424    	BSF 0x024,0
+0342    00C4            ; 88: INTCON.TMR0IF = 0
+0343    00C4    110B    	BCF INTCON,2
+0344    00C5            ; 89: Endif
+0345    00C5            L0044:
+0346    00C5            ; 90: Resume
+0347    00C5    0008    	RETURN
+0348    00C6            ; End of user code
+0349    00C6    28C6    L0045:	GOTO L0045
+0350    00C7            ;
+0351    00C7            ;
+0352    00C7            ;
+0353    00C7            ;
+0354    00C7            ; Word ShiftRight Routine
+0355    00C7    1003    SR01:	BCF STATUS,C
+0356    00C8    0CA1    	RRF R0H,F
+0357    00C9    0CA0    	RRF R0L,F
+0358    00CA    3EFF    SR00:	ADDLW 0xFF
+0359    00CB    1803    	BTFSC STATUS,C
+0360    00CC    28C7    	GOTO SR01
+0361    00CD    0008    	RETURN
+0362    00CE            ;
+0363    00CE            ;
+0364    00CE            ; End of listing
+0365    00CE            	END
+---------------------------------------------
+Number of errors = 0
