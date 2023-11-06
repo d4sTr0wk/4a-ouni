@@ -7,7 +7,6 @@ Dim i As Byte
 Dim auxiliar As Byte
 main:
 	For i = 0 To 5 Step 1
-		auxiliar = (1 << i)
 		If PORTB.i = 0 Then
 			PORTD = (1 << i)
 			While PORTB.i = 0
