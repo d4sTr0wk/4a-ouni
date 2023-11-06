@@ -12,7 +12,6 @@
 	R1HL0HL EQU 0x020
 ;       The address of 'i' (byte) (global) is 0x025
 ;       The address of 'auxiliar' (byte) (global) is 0x026
-;       The address of 'check' (bit) (global) is 0x027,0
 	ORG 0x0000
 	BCF PCLATH,3
 	BCF PCLATH,4
@@ -21,34 +20,31 @@
 	RETFIE
 ; User code start
 L0002:
-; 1: TRISB = 1
-	MOVLW 0x01
+; 1: TRISB = %11111111
+	MOVLW 0xFF
 	BSF STATUS,RP0
 	MOVWF TRISB
-; 2: TRISD = 0
+; 2: TRISD = %00000000
 	CLRF TRISD
 	BCF STATUS,RP0
-; 3: PORTB = 0
+; 3: PORTB = %00000000
 	CLRF PORTB
-; 4: PORTD = 0
+; 4: PORTD = %00000000
 	CLRF PORTD
-; 5: INTCON = 0
+; 5: INTCON = %00000000
 	CLRF INTCON
 ; 6: Dim i As Byte
 ; 7: Dim auxiliar As Byte
-; 8: Dim check As Bit
-; 9: check = 0
-	BCF 0x027,0
-; 10: main:
+; 8: main:
 L0001:
-; 11: For i = 0 To 5 Step 1
+; 9: For i = 0 To 5 Step 1
 	CLRF 0x025
 L0003:
 	MOVF 0x025,W
 	SUBLW 0x05
 	BTFSS STATUS,C
 	GOTO L0004
-; 12: auxiliar = (1 << i)
+; 10: auxiliar = (1 << i)
 	MOVLW 0x01
 	MOVWF R0L
 	CLRF R0H
@@ -56,24 +52,24 @@ L0003:
 	CALL SL00
 	MOVF R0L,W
 	MOVWF 0x026
-; 13: If (PORTB And auxiliar) = auxiliar Then
-	oshonsoft_temp_b1 EQU 0x028
+; 11: If (PORTB And auxiliar) = auxiliar Then
+	oshonsoft_temp_b1 EQU 0x027
 	MOVF PORTB,W
 	MOVWF R0L
 	MOVF 0x026,W
 	ANDWF R0L,W
-	MOVWF 0x028
-;       oshonsoft_temp_bit2 EQU 0x029,0
-	BCF 0x029,0
-	MOVF 0x028,W
+	MOVWF 0x027
+;       oshonsoft_temp_bit2 EQU 0x028,0
+	BCF 0x028,0
+	MOVF 0x027,W
 	SUBWF 0x026,W
 	BTFSS STATUS,Z
 	GOTO L0006
-	BSF 0x029,0
+	BSF 0x028,0
 L0006:
-	BTFSS 0x029,0
+	BTFSS 0x028,0
 	GOTO L0005
-; 14: PORTD = (1 << i)
+; 12: PORTD = (1 << i)
 	MOVLW 0x01
 	MOVWF R0L
 	CLRF R0H
@@ -81,7 +77,7 @@ L0006:
 	CALL SL00
 	MOVF R0L,W
 	MOVWF PORTD
-; 15: While PORTB.i = 1
+; 13: While PORTB.i = 1
 L0007:
 	MOVF PORTB,W
 	MOVWF R1L
@@ -91,25 +87,26 @@ L0007:
 	CALL BI01
 	BTFSS R1L,0
 	GOTO L0008
-; 16: Wend
+; 14: Wend
 	GOTO L0007
 L0008:
-; 17: Else
+; 15: Else
 	GOTO L0009
 L0005:
-; 18: PORTD.7 = 1
-	BSF PORTD,7
-; 19: Endif
+; 16: PORTD = %10000000
+	MOVLW 0x80
+	MOVWF PORTD
+; 17: Endif
 L0009:
-; 20: Next i
+; 18: Next i
 	MOVLW 0x01
 	ADDWF 0x025,F
 	BTFSS STATUS,C
 	GOTO L0003
 L0004:
-; 21: Goto main
+; 19: Goto main
 	GOTO L0001
-; 22: End
+; 20: End
 L0010:	GOTO L0010
 ; End of user code
 L0011:	GOTO L0011
