@@ -1,33 +1,20 @@
-TRISB = 1
-TRISD = 0
+TRISB = %00111111
+TRISD = %00000000
 PORTB = 0
 PORTD = 0
-INTCON = 0
+INTCON = %00000000
+Dim i As Byte
+Dim auxiliar As Byte
 main:
-	// Consulta periódica
-	If PORTB.0 = 1 Then
-		PORTD.0
+	For i = 0 To 5 Step 1
+		auxiliar = (1 << i)
+		If (PORTB And auxiliar) = auxiliar Then
+			PORTD = (1 << i)
+			While PORTB.i = 1
+			Wend
+		Else
+			PORTD = %10000000
+		Endif
+	Next i
 	Goto main
 End                                               
-calculadisplay:
-	Select Case display
-	Case 0
-		display = %00000001
-	Case 1
-		display = %00000010
-	Case 2
-		display = %00000100
-	Case 3
-		display = %00001000
-	Case 4
-		display = %00010000
-	Case 5
-		display = %00100000
-	Case 6
-		display = %01000000
-	Case 7
-		display = %10000000
-	EndSelect
-Return                                            
-
-	
