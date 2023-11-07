@@ -1,0 +1,200 @@
+{
+  "main": {
+    "id": "57028c08c18501e9",
+    "type": "split",
+    "children": [
+      {
+        "id": "70942836fe88266b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a6eab9bb8ac23a63",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5bb124550b48d184",
+    "type": "split",
+    "children": [
+      {
+        "id": "675a080cd52c0392",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ae573ee27bbd5710",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "90ccf67588cac17b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "284212227918f912",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "917743f528fd8a33",
+    "type": "split",
+    "children": [
+      {
+        "id": "fc828d15a6002828",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "09cd39fe72e15c7d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "8328b0b6c283cebf",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "3b717e7a5ab8d2b4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "97778b26011737d2",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md"
+              }
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo canvas": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false
+    }
+  },
+  "active": "a6eab9bb8ac23a63",
+  "lastOpenFiles": [
+    "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
+    "Pasted image 20231027165312.png",
+    "Pasted image 20231027084718.png",
+    "Pasted image 20231027084134.png",
+    "Pasted image 20231027083542.png",
+    "Pasted image 20231027083204.png",
+    "Pasted image 20231027083200.png",
+    "Pasted image 20231027083157.png",
+    "Pasted image 20231027083153.png",
+    "Pasted image 20231027083151.png",
+    "Pasted image 20231026195522.png",
+    "Sin título.md",
+    "Arq. de Computadores/Cuestionario 5.md",
+    "Arqs. Virtuales/Clase 24-10-23.md",
+    "Arqs. de Almacenamiento/Bloque temático 2.md",
+    "Arqs. Virtuales",
+    "Arqs. de Almacenamiento/Bloque temático 1.md",
+    "Circuitos Electrónicos y Señales/Tema 1. Elementos de un sistema y sus ecuaciones.md",
+    "Excalidraw/Cuestionario 5 24-10.md",
+    "Circuitos Electrónicos y Señales/Tema 2. Técnicas de procesamiento digital de la señal.md",
+    "Excalidraw/Drawing 2023-10-18 19.56.17.excalidraw.md",
+    "Arq. de Computadores",
+    "Cálculo/Tarea Tema 2.md",
+    "Img-bank",
+    "Circuitos Electrónicos y Señales",
+    "Excalidraw/calculo/Tarea Tema 2 ejc3.md",
+    "Excalidraw/calculo/Tarea Tema 2 ejc2.md",
+    "Excalidraw/calculo/Tarea Tema 2 ejc1.md",
+    "Excalidraw/calculo/Rel 2.3 ejc2.md",
+    "Excalidraw/calculo",
+    "Cálculo/Tema 2.md",
+    "Excalidraw/Drawing 2023-10-18 15.12.53.excalidraw.md",
+    "Excalidraw/calculo/Rel 2.3 ejc4.md",
+    "Excalidraw/prueba.md",
+    "Cálculo",
+    "ruta/del/archivo.pdf.md",
+    "Excalidraw",
+    "ruta/del",
+    "ruta",
+    "handwritten-notes/New note.pdf",
+    "Sin título 2023-10-18 01.11.37.excalidraw.md",
+    "Excalidraw/Drawing 2023-10-18 01.09.38.excalidraw.md",
+    "Excalidraw/Drawing 2023-10-18 01.10.40.excalidraw.md",
+    "Excalidraw/Sin título 2023-10-18 01.11.37.excalidraw.md",
+    "Sin título.canvas"
+  ]
+}
