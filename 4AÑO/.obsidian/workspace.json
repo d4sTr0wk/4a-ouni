@@ -4,22 +4,31 @@
     "type": "split",
     "children": [
       {
-        "id": "94077faf01437acc",
+        "id": "6fae9daf92cc5c16",
         "type": "tabs",
         "children": [
           {
-            "id": "a6397d1f17dff1ff",
+            "id": "e1738475b2ef9128",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "excalidraw",
               "state": {
-                "file": "Arqs. de Almacenamiento/Bloque temático 1.md",
-                "mode": "source",
-                "source": false
+                "file": "Excalidraw/circuitos/practica3/pregunta3.3.md"
+              }
+            }
+          },
+          {
+            "id": "39d08ac6863892aa",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "Excalidraw/circuitos/practica3/pregunta1.1.md"
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -85,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Arqs. de Almacenamiento/Bloque temático 1.md",
+                "file": "Excalidraw/circuitos/practica3/pregunta1.1.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Arqs. de Almacenamiento/Bloque temático 1.md",
+                "file": "Excalidraw/circuitos/practica3/pregunta1.1.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Arqs. de Almacenamiento/Bloque temático 1.md"
+                "file": "Excalidraw/circuitos/practica3/pregunta1.1.md"
               }
             }
           }
@@ -148,19 +157,30 @@
       "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
-  "active": "a6397d1f17dff1ff",
+  "active": "39d08ac6863892aa",
   "lastOpenFiles": [
-    "Arqs. de Almacenamiento/Imágenes/Polling example.png",
-    "Arqs. de Almacenamiento/Imágenes/Polling.png",
-    "Arqs. de Almacenamiento/Imágenes/Secuencia eventos en interrupcion.png",
-    "Arqs. de Almacenamiento/Imágenes/Enmascaramiento interrupcion.png",
-    "Arqs. de Almacenamiento/Imágenes/Servicio de una interrupción.png",
-    "Arqs. de Almacenamiento/Imágenes/Estructura con interrupción.png",
-    "Pasted Image 20231103170243_351.png",
-    "Pasted image 20231104125240.png",
-    "Pasted Image 20231104230821_171.png",
-    "Pasted Image 20231104230825_106.png",
-    "Pasted image 20231104232900.png",
+    "Excalidraw/pregunta3.4.png",
+    "Excalidraw/circuitos/practica3/pregunta3.4.md",
+    "Excalidraw/circuitos/practica3/pregunta3.3.md",
+    "Excalidraw/circuitos/practica3/pregunta1.4.md",
+    "Excalidraw/Drawing 2023-11-11 11.51.24_1.excalidraw.md",
+    "Excalidraw/Drawing 2023-11-11 11.51.24_0.excalidraw.md",
+    "Excalidraw/pergunta3.3.png",
+    "Excalidraw/circuitos/practica3/pregunta1.1.md",
+    "Excalidraw/circuitos/practica3/pregunta3.1.md",
+    "Excalidraw/circuitos/practica3/pregunta3.2.md",
+    "Excalidraw/pregunta3.2.png",
+    "Excalidraw/pregunta3.1.png",
+    "Excalidraw/pregunta1.4.png",
+    "Excalidraw/circuitos/practica3/pregunta1.3.png",
+    "Excalidraw/circuitos/practica3/pregunta1.2.md",
+    "Excalidraw/circuitos/practica3/pregunta1.3.md",
+    "Excalidraw/Arq.Comp.Rel2.Ej3.md",
+    "Excalidraw/Drawing 2023-11-10 16.29.24.excalidraw.png",
+    "Excalidraw/circuitos/practica3/pregunta1.2.png",
+    "Pasted image 20231104233450.png",
+    "Excalidraw/circuitos/practica3",
+    "Excalidraw/Pregunta 1.1.png",
     "Arqs. de Almacenamiento/Bloque temático 1.md",
     "Arqs. de Almacenamiento/Imágenes",
     "Arqs. de Almacenamiento/Bloque temático 2.md",
@@ -171,7 +191,6 @@
     "Excalidraw/circuitos",
     "Sin título.md",
     "Arq. de Computadores/Relación Tema 2.md",
-    "Excalidraw/Arq.Comp.Rel2.Ej3.md",
     "Excalidraw/comp/Arq.Comp.Rel2.Ej2.md",
     "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
     "Excalidraw/comp/Arq.Comp.Rel2.Ej1.md",
@@ -179,23 +198,12 @@
     "Excalidraw/comp/Cuestionario 5 24-10.md",
     "Excalidraw/comp",
     "Arq. de Computadores/Cuestionario 5.md",
-    "Arqs. Virtuales/Clase 24-10-23.md",
     "Arqs. Virtuales",
-    "Circuitos Electrónicos y Señales/Tema 1. Elementos de un sistema y sus ecuaciones.md",
     "Arq. de Computadores",
-    "Cálculo/Tarea Tema 2.md",
     "Img-bank",
     "Circuitos Electrónicos y Señales",
-    "Excalidraw/calculo/Tarea Tema 2 ejc3.md",
-    "Excalidraw/calculo/Tarea Tema 2 ejc2.md",
-    "Excalidraw/calculo/Tarea Tema 2 ejc1.md",
-    "Excalidraw/calculo/Rel 2.3 ejc2.md",
     "Excalidraw/calculo",
-    "Cálculo/Tema 2.md",
-    "Excalidraw/Drawing 2023-10-18 15.12.53.excalidraw.md",
-    "Excalidraw/calculo/Rel 2.3 ejc4.md",
     "Cálculo",
-    "Excalidraw",
     "Sin título.canvas"
   ]
 }
