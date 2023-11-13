@@ -21,9 +21,11 @@
             "id": "39d08ac6863892aa",
             "type": "leaf",
             "state": {
-              "type": "excalidraw",
+              "type": "markdown",
               "state": {
-                "file": "Excalidraw/circuitos/practica3/pregunta1.1.md"
+                "file": "Cálculo/Tema 2.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -94,7 +96,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Excalidraw/circuitos/practica3/pregunta1.1.md",
+                "file": "Cálculo/Tema 2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +113,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Excalidraw/circuitos/practica3/pregunta1.1.md",
+                "file": "Cálculo/Tema 2.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +136,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Excalidraw/circuitos/practica3/pregunta1.1.md"
+                "file": "Cálculo/Tema 2.md"
               }
             }
           }
@@ -159,6 +161,8 @@
   },
   "active": "39d08ac6863892aa",
   "lastOpenFiles": [
+    "Cálculo/Tarea Tema 2.md",
+    "Excalidraw/circuitos/practica3/pregunta1.1.md",
     "Excalidraw/pregunta3.4.png",
     "Excalidraw/circuitos/practica3/pregunta3.4.md",
     "Excalidraw/circuitos/practica3/pregunta3.3.md",
@@ -166,7 +170,6 @@
     "Excalidraw/Drawing 2023-11-11 11.51.24_1.excalidraw.md",
     "Excalidraw/Drawing 2023-11-11 11.51.24_0.excalidraw.md",
     "Excalidraw/pergunta3.3.png",
-    "Excalidraw/circuitos/practica3/pregunta1.1.md",
     "Excalidraw/circuitos/practica3/pregunta3.1.md",
     "Excalidraw/circuitos/practica3/pregunta3.2.md",
     "Excalidraw/pregunta3.2.png",
