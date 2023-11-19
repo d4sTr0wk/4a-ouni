@@ -23,7 +23,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Cálculo/Tema 2.md",
+                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
                 "mode": "source",
                 "source": false
               }
@@ -96,7 +96,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Cálculo/Tema 2.md",
+                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,7 +113,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Cálculo/Tema 2.md",
+                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -136,7 +136,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Cálculo/Tema 2.md"
+                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md"
               }
             }
           }
@@ -161,6 +161,7 @@
   },
   "active": "39d08ac6863892aa",
   "lastOpenFiles": [
+    "Cálculo/Tema 2.md",
     "Cálculo/Tarea Tema 2.md",
     "Excalidraw/circuitos/practica3/pregunta1.1.md",
     "Excalidraw/pregunta3.4.png",
@@ -200,7 +201,6 @@
     "Excalidraw/Drawing 2023-10-18 19.56.17.excalidraw.md",
     "Excalidraw/comp/Cuestionario 5 24-10.md",
     "Excalidraw/comp",
-    "Arq. de Computadores/Cuestionario 5.md",
     "Arqs. Virtuales",
     "Arq. de Computadores",
     "Img-bank",
