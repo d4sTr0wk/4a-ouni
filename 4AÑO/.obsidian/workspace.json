@@ -4,33 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "6fae9daf92cc5c16",
+        "id": "2e05f2fdaf2f37ea",
         "type": "tabs",
         "children": [
           {
-            "id": "e1738475b2ef9128",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "Excalidraw/circuitos/practica3/pregunta3.3.md"
-              }
-            }
-          },
-          {
-            "id": "39d08ac6863892aa",
+            "id": "e49bc96148c59643",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
+                "file": "Arqs. de Almacenamiento/Bloque temático 1.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -96,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
+                "file": "Arqs. de Almacenamiento/Bloque temático 1.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
+                "file": "Arqs. de Almacenamiento/Bloque temático 1.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -136,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md"
+                "file": "Arqs. de Almacenamiento/Bloque temático 1.md"
               }
             }
           }
@@ -159,14 +148,17 @@
       "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
-  "active": "39d08ac6863892aa",
+  "active": "e49bc96148c59643",
   "lastOpenFiles": [
+    "Excalidraw/circuitos/practica3/pregunta3.3.md",
+    "Pasted image 20231018015431.png.md",
+    "Arqs. de Almacenamiento/Bloque temático 1.md",
+    "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
     "Cálculo/Tema 2.md",
     "Cálculo/Tarea Tema 2.md",
     "Excalidraw/circuitos/practica3/pregunta1.1.md",
     "Excalidraw/pregunta3.4.png",
     "Excalidraw/circuitos/practica3/pregunta3.4.md",
-    "Excalidraw/circuitos/practica3/pregunta3.3.md",
     "Excalidraw/circuitos/practica3/pregunta1.4.md",
     "Excalidraw/Drawing 2023-11-11 11.51.24_1.excalidraw.md",
     "Excalidraw/Drawing 2023-11-11 11.51.24_0.excalidraw.md",
@@ -185,7 +177,6 @@
     "Pasted image 20231104233450.png",
     "Excalidraw/circuitos/practica3",
     "Excalidraw/Pregunta 1.1.png",
-    "Arqs. de Almacenamiento/Bloque temático 1.md",
     "Arqs. de Almacenamiento/Imágenes",
     "Arqs. de Almacenamiento/Bloque temático 2.md",
     "Circuitos Electrónicos y Señales/Relación de problemas 1.md",
@@ -196,10 +187,8 @@
     "Sin título.md",
     "Arq. de Computadores/Relación Tema 2.md",
     "Excalidraw/comp/Arq.Comp.Rel2.Ej2.md",
-    "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
     "Excalidraw/comp/Arq.Comp.Rel2.Ej1.md",
     "Excalidraw/Drawing 2023-10-18 19.56.17.excalidraw.md",
-    "Excalidraw/comp/Cuestionario 5 24-10.md",
     "Excalidraw/comp",
     "Arqs. Virtuales",
     "Arq. de Computadores",
