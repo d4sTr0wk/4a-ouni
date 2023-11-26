@@ -1,24 +1,14 @@
 {
   "main": {
-    "id": "57028c08c18501e9",
+    "id": "217d1aefa883d56e",
     "type": "split",
     "children": [
       {
-        "id": "6fae9daf92cc5c16",
+        "id": "26b97403bd4bcd66",
         "type": "tabs",
         "children": [
           {
-            "id": "e1738475b2ef9128",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "Excalidraw/circuitos/practica3/pregunta3.3.md"
-              }
-            }
-          },
-          {
-            "id": "39d08ac6863892aa",
+            "id": "dbaf48e8575959e8",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -29,22 +19,21 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "5bb124550b48d184",
+    "id": "274ae0980771407e",
     "type": "split",
     "children": [
       {
-        "id": "675a080cd52c0392",
+        "id": "93b8ce83c68da4b5",
         "type": "tabs",
         "children": [
           {
-            "id": "ae573ee27bbd5710",
+            "id": "0f8edbfefd6d6cc4",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -54,7 +43,7 @@
             }
           },
           {
-            "id": "90ccf67588cac17b",
+            "id": "776633cd234f3493",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -69,7 +58,7 @@
             }
           },
           {
-            "id": "284212227918f912",
+            "id": "e95cf6a1fd055658",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -83,15 +72,15 @@
     "width": 300
   },
   "right": {
-    "id": "917743f528fd8a33",
+    "id": "1113588b803eaee5",
     "type": "split",
     "children": [
       {
-        "id": "fc828d15a6002828",
+        "id": "e1d051d3229a729a",
         "type": "tabs",
         "children": [
           {
-            "id": "09cd39fe72e15c7d",
+            "id": "15f08350cbe952f2",
             "type": "leaf",
             "state": {
               "type": "backlink",
@@ -108,7 +97,7 @@
             }
           },
           {
-            "id": "8328b0b6c283cebf",
+            "id": "65d11bafcee88d7f",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
@@ -120,7 +109,7 @@
             }
           },
           {
-            "id": "3b717e7a5ab8d2b4",
+            "id": "dcd44941be7cc3c5",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -131,7 +120,7 @@
             }
           },
           {
-            "id": "97778b26011737d2",
+            "id": "90c3cfacda65c2c5",
             "type": "leaf",
             "state": {
               "type": "outline",
@@ -140,8 +129,7 @@
               }
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -150,66 +138,20 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "obsidian-excalidraw-plugin:Create new drawing": false,
       "switcher:Abrir selector rápido": false,
       "graph:Abrir vista gráfica": false,
       "canvas:Crear nuevo canvas": false,
       "daily-notes:Abrir la nota de hoy": false,
       "templates:Insertar plantilla": false,
-      "command-palette:Abrir paleta de comandos": false,
-      "obsidian-excalidraw-plugin:Create new drawing": false
+      "command-palette:Abrir paleta de comandos": false
     }
   },
-  "active": "39d08ac6863892aa",
+  "active": "dbaf48e8575959e8",
   "lastOpenFiles": [
-<<<<<<< Updated upstream
-    "Pasted image 20231018015431.png.md",
-=======
->>>>>>> Stashed changes
-    "Arqs. de Almacenamiento/Bloque temático 2.md",
-    "Arqs. de Almacenamiento/Bloque temático 1.md",
-    "Arq. de Computadores/Tema 2. Diseño de la jerarquía de memoria.md",
-    "Cálculo/Tema 2.md",
-    "Cálculo/Tarea Tema 2.md",
-    "Excalidraw/circuitos/practica3/pregunta1.1.md",
-    "Excalidraw/pregunta3.4.png",
-    "Excalidraw/circuitos/practica3/pregunta3.4.md",
-    "Excalidraw/circuitos/practica3/pregunta3.3.md",
-    "Excalidraw/circuitos/practica3/pregunta1.4.md",
-    "Excalidraw/Drawing 2023-11-11 11.51.24_1.excalidraw.md",
-    "Excalidraw/Drawing 2023-11-11 11.51.24_0.excalidraw.md",
-    "Excalidraw/pergunta3.3.png",
-    "Excalidraw/circuitos/practica3/pregunta3.1.md",
-    "Excalidraw/circuitos/practica3/pregunta3.2.md",
-    "Excalidraw/pregunta3.2.png",
-    "Excalidraw/pregunta3.1.png",
-    "Excalidraw/pregunta1.4.png",
-    "Excalidraw/circuitos/practica3/pregunta1.3.png",
-    "Excalidraw/circuitos/practica3/pregunta1.2.md",
-    "Excalidraw/circuitos/practica3/pregunta1.3.md",
-    "Excalidraw/Arq.Comp.Rel2.Ej3.md",
-    "Excalidraw/Drawing 2023-11-10 16.29.24.excalidraw.png",
-    "Excalidraw/circuitos/practica3/pregunta1.2.png",
-    "Pasted image 20231104233450.png",
-    "Excalidraw/circuitos/practica3",
-    "Excalidraw/Pregunta 1.1.png",
-    "Arqs. de Almacenamiento/Imágenes",
-    "Circuitos Electrónicos y Señales/Relación de problemas 1.md",
-    "Excalidraw/circuitos/ej3 obligatorio.md",
-    "Excalidraw/circuitos/ej_op_4.md",
-    "Circuitos Electrónicos y Señales/Tema 2. Técnicas de procesamiento digital de la señal.md",
-    "Excalidraw/circuitos",
-    "Sin título.md",
-    "Arq. de Computadores/Relación Tema 2.md",
-    "Excalidraw/comp/Arq.Comp.Rel2.Ej2.md",
-    "Excalidraw/comp/Arq.Comp.Rel2.Ej1.md",
-    "Excalidraw/Drawing 2023-10-18 19.56.17.excalidraw.md",
-    "Excalidraw/comp",
-    "Arqs. Virtuales",
-    "Arq. de Computadores",
-    "Img-bank",
-    "Circuitos Electrónicos y Señales",
-    "Excalidraw/calculo",
-    "Cálculo",
-    "Sin título.canvas"
+    "Servicio diferido de interrupciones.png",
+    "Ejemplo controlador de interrupciones.png",
+    "Controlador de interrupciones esquema.png",
+    "Arquitectura DMA tradicional.png"
   ]
 }

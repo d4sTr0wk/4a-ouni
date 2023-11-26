@@ -18,7 +18,7 @@
 
 La interfase suele estar integrada en el periférico, pero puede ser un dispositivo independiente.
 
-El **Driver** del dispositivo es el software que gestiona y controla la transferencia de datos y es ejecuta en el sistema procesador.
+El **Driver** del dispositivo es el software que gestiona y controla la transferencia de datos y se ejecuta en el sistema procesador.
 
 La dirección de las transferencias con referencia al sistema procesador:
 - Lectura (Read): los datos provienen del periférico y entran al sistema procesador.
@@ -201,3 +201,62 @@ Esta figura muestra el mapa del espacio de direcciones de un microcontrolador co
 
 ## Controlador de interrupciones
 
+Es un circuito especializado que aplica como gestor de orígenes múltiples de interrupciones. Es el intermediario entre los periféricos y la CPU. El controlador:
+- Prioriza las peticiones y determina si se atienden o no.
+- Activa la señal de interrupción INT que va a la CPU.
+- Entrega a ésta el vector de interrupción asociado al periférico.
+![[Controlador de interrupciones esquema.png]]
+
+El controlador no es más que una interfase por lo que tiene registros y un modelo de programación. Estos registros permiten:
+- Enmascarar interrupciones individuales.
+- Evitar interrupciones autointerrumpidas (sólo se atienden a otras interrupciones si son más prioritarias que la que se está ejecutando).
+- Determinar el rango de posibles vectores de interrupción.
+
+![[Ejemplo controlador de interrupciones.png]]
+
+## MSI (Message Signaled Interrupts)
+
+Una especificación del estándar del bus PC introdujo una nueva forma de señalizar la necesidad de una interrupción sin el requerimiento de la activación de las líneas de interrupción del procesador:  El MSI = Interrupciones señalizadas por mensaje.
+
+La interrupción MSI **no emplea la línea de petición INT**.
+
+Se señaliza desde el controlador de interrupciones realizando una operación de escritura en una dirección de memoria especificada. Por esto...
+
+```` 
+MSI es un caso especial de E/S mapeada por memoria
+````
+
+Al ser una escritura en memoria, el mensaje es transmitido a través del bus de datos. Este mensaje es interceptado por el <mark style="background: #FFF3A3A6;">controlador de interrupciones local del procesador (APIC)</mark>.
+
+La dirección donde hay que escribir se obtiene de un registro en la interfase del controlador de interrupciones
+
+La interfase de la CPU ofrece un registro llamado Message Data Register en esa dirección obtenida del controlador de interrupciones en el cual con la simple operación de escritura se carga en el registro todos los parámetros de la petición de interrupción.
+
+MSI simplifica el diseño de multiprocesadores ya que el mismo bus de transacciones CPU - Memoria se usa para las peticiones de interrupción. La sincronización con la operación de interrupción es mucho más fácil.
+
+MSI simplifica también el diseño e interfaz de los chipsets. La interrupción se enruta por los integrados del chipset (Puente norte y sur) por donde se pasan también los datos. Esto quita la necesidad de poner líneas de activación de interrupciones por la placa madre.
+
+Todos los ordenadores modernos señalizan sus interrupciones usando solamente MSI.
+
+## Servicio diferido de interrupciones
+
+La complejidad de los procesadores hace obligatorio deshabilitar las interrupciones durante la rutina de servicio, un problema para las rutinas largas.
+
+Se soluciona si se divide el procesamiento de la interrupción en dos partes.
+
+![[Servicio diferido de interrupciones.png]]
+
+## E/S por DMA
+
+PIO enlentece el ordenador porque involucra la CPU en cada movimiento de datos.
+
+La E/S por DMA transfiere los datos sin necesidad de usar la CPU:
+- Requiere el uso de hardware especial (controlador DMA) para que realice los direccionamientos (asignaciones a la línea de bus de direcciones y de control).
+	- El controlador DMA **NO mueve los datos**; sólo controla el movimiento.
+
+![[Arquitectura DMA tradicional.png]]
+
+El controlador DMA solo da valores a líneas del bus de direcciones y a algunas líneas de control.
+
+Si se da una transferencia, DMA usa bus de direcciones y bus de datos, entonces la CPU no puede emplearlos durante la transferencia porque supondría un conflicto.
+- La CPU se desconecta físicamente. 
