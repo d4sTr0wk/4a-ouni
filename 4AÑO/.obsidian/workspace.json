@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "917743f528fd8a33",
@@ -150,6 +151,10 @@
   },
   "active": "e49bc96148c59643",
   "lastOpenFiles": [
+    "Arquitectura DMA tradicional.png",
+    "Servicio diferido de interrupciones.png",
+    "Ejemplo controlador de interrupciones.png",
+    "Controlador de interrupciones esquema.png",
     "Excalidraw/circuitos/practica3/pregunta3.3.md",
     "Pasted image 20231018015431.png.md",
     "Arqs. de Almacenamiento/Bloque temático 1.md",
@@ -173,10 +178,7 @@
     "Excalidraw/circuitos/practica3/pregunta1.3.md",
     "Excalidraw/Arq.Comp.Rel2.Ej3.md",
     "Excalidraw/Drawing 2023-11-10 16.29.24.excalidraw.png",
-    "Excalidraw/circuitos/practica3/pregunta1.2.png",
-    "Pasted image 20231104233450.png",
     "Excalidraw/circuitos/practica3",
-    "Excalidraw/Pregunta 1.1.png",
     "Arqs. de Almacenamiento/Imágenes",
     "Arqs. de Almacenamiento/Bloque temático 2.md",
     "Circuitos Electrónicos y Señales/Relación de problemas 1.md",
@@ -188,7 +190,6 @@
     "Arq. de Computadores/Relación Tema 2.md",
     "Excalidraw/comp/Arq.Comp.Rel2.Ej2.md",
     "Excalidraw/comp/Arq.Comp.Rel2.Ej1.md",
-    "Excalidraw/Drawing 2023-10-18 19.56.17.excalidraw.md",
     "Excalidraw/comp",
     "Arqs. Virtuales",
     "Arq. de Computadores",
