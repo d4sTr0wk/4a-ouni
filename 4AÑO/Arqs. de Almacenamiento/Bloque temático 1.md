@@ -460,3 +460,126 @@ La implementación bloqueante es sencilla pero presenta problemas de eficiencia,
 1. <u>Monopolización del bus</u>
 	- Problema específico de transacciones bloqueantes con transferencias en modo ráfaga.
 	- Una vez iniciada la transacción, ningún maestro de bus puede comenzar otra hasta que se transfiera el último dato de la ráfaga actual.
+
+### Transacciones divididas ("*split transactions*")
+
+Son la solución a los problemas de eficiencia descritos al usar transacciones bloqueantes es usar transacciones no bloqueantes.
+
+Un bus soporta transacciones divididas o interrumpibles si la  transferencia puede ser:
+- interrumpida para intercalar otras transacciones.
+- continuada desde donde se dejó hasta terminar la transferencia.
+
+<mark style="background: #FFF3A3A6;">Características:</mark>
+- La interrupción ocurre entre la fase de DIR y la primera fase de D, o entre dos fases de D consecutivas.
+- Necesita que maestro y esclavo mantengan información de estado sobre el momento de la interrupción y la dirección del próximo ítem de datos a transferir.
+- La reanudación requiere una nueva fase de DIR donde maestro y esclavo reconozcan la continuación.
+Las transacciones divididas **son muy importantes a nivel de interfaz:**
+- Permiten intercalar la ejecución de múltiples comandos.
+- Los conceptos son los mismos salvo cambiando "maestro de bus"  y "esclavo de bus" por "iniciador" y "diana".
+
+![[Ejemplo transacciones divididas.png|700]]
+
+<mark style="background: #FFF3A3A6;">Ventajas:</mark>
+- Permiten aprovechar las latencias evitando así la inactividad del bus.
+- Evitan la monopolización del bus, fragmentando las transferencias largas.
+- Mejoran la concurrencia y reducen tiempos de respuesta.
+
+<mark style="background: #FFF3A3A6;">Inconvenientes:</mark>
+- El diseño es más complejo.
+- Requiere unidades de control complejas en maestro y esclavo de bus
+	- Esto no supone un problema en periféricos con interfaz hardware puesto que ya vienen con una UC compleja incorporada.
+
+### Clasificación de los buses según su propósito
+
+![[Bus local.png]]
+
+<u>Bus CPU - Memoria (Bus local)</u>
+Diseñado para interconectar CPU y memoria principal:
+- Buses de alta velocidad, trabajando a la máxima frecuencia posible.
+- Necesariamente las líneas deben de ser muy cortas.
+- Diseño muy optimizado y ligado al tipo de CPU y subsistema de memoria.
+- Puede contemplar el uso de múltiples CPUs.
+
+En diseños actuales, el bus está desacoplado del resto del sistema por el "Puente Norte".
+
+### Buses de E/S o de expansión
+
+Su propósito es la conexión de dispositivos E/S o adaptadores de estos. No tienen conexión directa al bus local, requiriendo siempre un circuito intermedio de adaptación.
+
+![[Pasted image 20231127181758.png]]
+
+- Los hay rápidos, optimizados y cortos (AGP, PCI-eXpress, etc.).
+- Otros permiten conexiones múltiples con longitudes moderadas y velocidad media, media-alta (PCI, SCSI, USB).
+- Optimizados para largas distancias (bus serie RS-422).
+
+### Clasificación de buses según su temporización
+
+En una transacción es imprescindible la señalización de sincronismo entre maestro y esclavo para que sepan en qué fase se encuentran y el momento exacto en qeu pueden leer e interpretar con seguridad los valores de la línea de bus.
+
+Dependiendo del origen e interpretación de las señales de sincronismo, los buses se clasifican en **síncronos** o **asíncronos**.
+
+### Bus síncrono
+
+Existe una señal periódica de sincronismo (CLK) común a todos los dispositivos.
+- CLK es generada por un dispositivo externo distinto al maestro y al esclavo.
+- Los ciclos delimitan precisamente intervalos de tiempo (ciclos de reloj o *time-slots*).
+
+Cada fase se produce en un *time-slot*:
+- Fijado por las especificaciones del bus.
+- El instante de comienzo y final se puede calcular contando el número de ciclos CLK transcurridos.
+
+![[Ejemplo bus síncrono.png]]
+
+En el primer ciclo CLK ocurre la fase de direccionamiento:
+- Maestro señala dirección y tipo.
+- Esclavo interpreta la señalización.
+En las fases de datos:
+- Cada movimiento de datos requiere un ciclo.
+- En cada ciclo el maestro debe colocar en bus los datos a transferir, y el esclavo leerlos y almacenarlos.
+
+La **temporización es muy estricta:**
+- Si maestro o esclavo necesitan tiempo adicional deben señalizarlo.
+	- Activación de línea específica del bus, llamada **WAIT o READY**.
+- El tiempo adicional se consigue añadiendo ciclos de espera (WAIT STATES)
+	- CLK sigue oscilando pero no cuenta a efectos de la evolución de la transacción.
+
+![[Ciclos de espera.png]]
+
+<mark style="background: #FFF3A3A6;">Ventajas:</mark>
+- Implementación relativamente sencilla al no requerir señalización bidireccional.
+- Señalización unidireccional que permite transferencias modo ráfaga a la máxima velocidad posible.
+
+<mark style="background: #FFF3A3A6;">Inconvenientes:</mark>
+- Para eficacia máxima se necesita que los dispositivos trabajen a velocidades similares
+	- Mezcla de dispositivos rápidos y lentos provoca frecuente inserción de estados de espera.
+- Requiere distribuir una señal de reloj común por el bus.
+
+### Bus asíncrono
+
+En este bus la sincronización se consigue mediante señales de control (*handshaking*). Esto hace que la señalización pueda ser tanto unidireccional como bidireccional (*one-way, two-way*).
+
+Se usa un *strobe* para delimitar el intervalo de tiempo durante el que los valores en el bus de datos son estables. Los datos deben escribirse en el bus antes de activar el *strobe* y retirarse del bus después de desactivarlo.
+
+![[Strobe.png]]
+
+![[Señalización bidireccional.png]]
+
+- Sistema D = destino de datos
+	- Utiliza el REQ para solicitar que le transfieran datos.
+- Sistema O = origen de datos
+	- Utiliza ACK para indicar cuándo hay datos válidos en el bus.
+
+![[Secuencia bus asíncrono.png]]
+
+![[Handshaking asíncrono bidireccional.png]]
+
+![[Ejemplo handshaking asíncrono.png]]
+
+<mark style="background: #FFF3A3A6;">Ventajas:</mark>
+- Mayor flexibilidad para sincronizar la operación con distintas velocidades.
+- El estado de transacción no evoluciona hasta que hay señal de control.
+	- No se requieren estados de espera.
+
+<mark style="background: #FFF3A3A6;">Inconvenientes:</mark>
+- Implementación más compleja.
+- En bidireccionales, la necesidad de esperar ACK reduce la capacidad del bus.
