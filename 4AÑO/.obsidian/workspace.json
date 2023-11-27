@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "c9dae35bc67dc5eb",
+        "id": "8562d4ff02cdb34e",
         "type": "tabs",
         "children": [
           {
-            "id": "d5237ab15a18acc0",
+            "id": "164a3b5d963c1159",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -150,20 +150,21 @@
   },
   "active": "0f8edbfefd6d6cc4",
   "lastOpenFiles": [
+    "Arqs. de Almacenamiento/Imágenes/Transacción de bus.png",
+    "Pasted image 20231127085445.png.md",
+    "Arqs. de Almacenamiento/Bloque temático 1.md",
+    "Arqs. de Almacenamiento/Imágenes/Bus SCSI.png",
     "Arqs. de Almacenamiento/Imágenes/Interfaz.png",
     "Arqs. de Almacenamiento/Imágenes/Puente Norte.png",
     "Arqs. de Almacenamiento/Imágenes/Arbitración distribuida con autoselección.png",
     "Arqs. de Almacenamiento/Imágenes/Arbitración centralizada.png",
     "Pasted image 20231018020306.png.md",
-    "Arqs. de Almacenamiento/Bloque temático 1.md",
     "Pasted Image 20231103170243_351.png",
     "Pasted image 20231018015431.png.md",
     "Pasted image 20231104125240.png",
     "Pasted Image 20231104230821_171.png",
     "Pasted Image 20231104230825_106.png",
     "Pasted image 20231104232900.png",
-    "Pasted image 20231104233121.png",
-    "Pasted image 20231104233137.png",
     "Excalidraw/alm"
   ]
 }

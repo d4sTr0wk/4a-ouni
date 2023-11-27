@@ -336,7 +336,7 @@ Al ser el bus de acceso a memoria mucho más rápido que los otros permite la mu
 
 Ya no se necesita interferir en la operación de la CPU para realizar la transferencia DMA, importante en multiprocesadores.<mark style="background: #BBFABBA6;"> Los MCH también vigilan la coherencia entre caché y memoria principal.</mark>
 
-![[Puente Norte.png]]
+![[Puente Norte.png|700]]
 
 ## II - Buses e interfaces
 
@@ -350,8 +350,46 @@ Un bus es un subsistema que interconecta dos o más dispositivos por líneas com
 
 **En la definición de un bus no se hace interpretación de los datos transferidos. La temporización, o protocolo de intercambio de señales, nos permite distinguir entre señales de control y de datos pero no se interpreta el contenido de estos.**
 
-![[Interfaz.png]]
+![[Interfaz.png|700]]
 
 El periférico que usa interfaz puede procesar comandos. Su interfase tiene una unidad de control:
 - Un microprocesador simple o microcontrolador avanzado.
 - Un programa en ROM (firmware), con código que ejecutará para implementar comandos.
+
+La unidad de control recibe la petición de ejecutar un comando a través del registro de comandos. Será un código de operación (codop). Estos son los pasos para cada operación:
+1. El sistema procesador recibe en el registro de comandos el codop del comando.
+2. La unidad de control identifica y ejecuta el comando.
+3. La UC supervisa la ejecución por el hardware del periférico. Los datos a mover se intercambian con el sistema procesador a través del bus.
+4. El periférico termina y devuelve por el bus códigos de estado/error.
+
+La interfaz se caracteriza por:
+- Involucra un periférico con capacidad de procesamiento de comandos.
+- Requiere la interpretación de datos transferidos por bus.
+- Siempre requiere un bus subyacente entre procesador y periférico.
+
+````
+Interfaz = Bus + "inteligencia" = Bus + procesamiento autónomo de comandos.
+````
+
+Esta figura muestra los datos que componen un comando, y sus parámetros.
+
+![[Bus SCSI.png]]
+
+**La misma secuencia de datos se puede transferir por otro tipo de bus y el comando SCSI será interpretado correctamente independientemente del bus usado porque la interpretación del comando reside en el interfaz SCSI.**
+
+### Transacción de bus
+
+**Secuencia de operaciones que componen una transferencia de datos completa.**
+
+La dirección de la transacción usa el criterio <mark style="background: #FFF3A3A6;">"CPU céntrico:"</mark>
+- Transacción de lectura: desde periférico hacia sistema procesador.
+- Transacción de escritura: desde sistema procesador hacia periférico.
+
+Las transacciones de bus tienen:
+- Fase de direccionamiento (Dir): En el bus el dispositivo coloca el valor identificativo del dispositivo con quien hacer el intercambio de datos y el tipo de transacción.
+- Fase de datos (D): Realización de transferencia.
+
+![[Transacción de bus.png|700]]
+
+### Maestro y esclavo de bus
+
