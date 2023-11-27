@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "26b97403bd4bcd66",
+        "id": "c9dae35bc67dc5eb",
         "type": "tabs",
         "children": [
           {
-            "id": "dbaf48e8575959e8",
+            "id": "d5237ab15a18acc0",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -129,11 +129,12 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -147,11 +148,22 @@
       "command-palette:Abrir paleta de comandos": false
     }
   },
-  "active": "dbaf48e8575959e8",
+  "active": "0f8edbfefd6d6cc4",
   "lastOpenFiles": [
-    "Servicio diferido de interrupciones.png",
-    "Ejemplo controlador de interrupciones.png",
-    "Controlador de interrupciones esquema.png",
-    "Arquitectura DMA tradicional.png"
+    "Arqs. de Almacenamiento/Imágenes/Interfaz.png",
+    "Arqs. de Almacenamiento/Imágenes/Puente Norte.png",
+    "Arqs. de Almacenamiento/Imágenes/Arbitración distribuida con autoselección.png",
+    "Arqs. de Almacenamiento/Imágenes/Arbitración centralizada.png",
+    "Pasted image 20231018020306.png.md",
+    "Arqs. de Almacenamiento/Bloque temático 1.md",
+    "Pasted Image 20231103170243_351.png",
+    "Pasted image 20231018015431.png.md",
+    "Pasted image 20231104125240.png",
+    "Pasted Image 20231104230821_171.png",
+    "Pasted Image 20231104230825_106.png",
+    "Pasted image 20231104232900.png",
+    "Pasted image 20231104233121.png",
+    "Pasted image 20231104233137.png",
+    "Excalidraw/alm"
   ]
 }

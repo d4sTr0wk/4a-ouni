@@ -12,7 +12,7 @@
 ![[Pasted image 20231018015431.png|700]]
 ![[Pasted image 20231018020306.png|700]]
 
-## Estructura de la E/S
+## I - Estructura de la E/S
 
 ![[Estructura de E-S.png|700]]
 
@@ -34,7 +34,7 @@ Los **registros de entrada de datos** albergan temporalmente los datos entregado
 
 Los **registros de salida de datos** albergan temporalmente los datos enviados hacia el periférico (un único registro o un buffer RAM).
 
-## Interfase y modelo de programación del periférico
+### Interfase y modelo de programación del periférico
 
 - Registros de interfase
 - Organización y estructura
@@ -43,7 +43,7 @@ Los **registros de salida de datos** albergan temporalmente los datos enviados h
 
 El modelo de programación permite desacoplar el hardware y no cambiar su comportamiento lógico, así se puede cambiar el hardware sin alterar su función. Lo único a comprobar es la conservación de la compatibilidad.
 
-## Direccionamiento de la interfase
+### Direccionamiento de la interfase
 
 Para realizar una transferencia desde el sistema computador hay que saber qué periférico está involucrado y el registro origen o destino.
 
@@ -94,7 +94,7 @@ Se usan puertos de E/S para acceder a registros críticos o dispositivos "legacy
 ```
 
 
-## Métodos de E/S: PIO y DMA
+### Métodos de E/S: PIO y DMA
 
 Hay dos formas de realizar las transferencias de E/S: PIO y DMA.
 
@@ -102,7 +102,7 @@ Hay dos formas de realizar las transferencias de E/S: PIO y DMA.
 
 - **E/S por DMA (Direct Memory Access):**  No requiere explícitamente a la CPU para la transferencia. Emplea *hardware especial* para controlar la transferencia.
 
-## E/S por programa (PIO)
+### E/S por programa (PIO)
 
 ![[Diagrama transacción de lectura.png|700]]
 
@@ -116,7 +116,7 @@ Hay dos formas de realizar las transferencias de E/S: PIO y DMA.
 
 Se suele usar para transferencias puntuales que involucran poco datos.
 
-## Consulta de estado
+### Consulta de estado
 
 Antes de realizar la transferencia se debe comprobar si el periférico está preparado (protocolo *handshaking*).
 
@@ -128,7 +128,7 @@ Consulta de estado mediante:
 - **Bloqueo de programa:** bucle de espera hasta que el periférico esté preparado. El tiempo de respuesta es mínimo pero paraliza la operación del sistema.
 - **Consulta periódica:** si no estuviese listo el periférico el driver permite al programa seguir haciendo otras cosas antes de volver a intentar el acceso. El tiempo ya no está asegurado para que sea mínimo y puede ser difícil acotar el tiempo máximo de respuesta pero permite al sistema operar concurrentemente con la E/S.
 
-## Ejemplo de E/S por PIO
+### Ejemplo de E/S por PIO
 
 - **DAV (Dato válido):** la interfase le indica al periférico el envío de dato. Activa hasta recibir DAC.
 - **DAC (Dato Aceptado):** el periférico indica que ha aceptado el dato.
@@ -141,7 +141,7 @@ Dos ejemplos de lectura y escritura de datos :
 
 ![[Escritura de datos.png|700]]
 
-## Interrupciones
+### Interrupciones
 
 Las **interrupciones hardware** permiten a la interfase crear un evento que provoque la respuesta de la CPU, eliminando la indeterminación en la temporización de la E/S.
 
@@ -164,7 +164,7 @@ Para evitarlo hay dos formas:
 - Usar enmascaramiento de interrupciones: se bloquea nueva interrupción hasta que termine la actual.
 ![[Enmascaramiento interrupcion.png|700]]
 
-## Vector de interrupción
+### Vector de interrupción
 
 Las interrupciones provocan la ejecución de una rutina de servicio. El **vector de interrupción** es el mecanismo que enlaza el origen de la interrupción con la rutina de servicio. Es un valor entero de 8 bits que actúa como identificador del origen de la interrupción. Proporciona un puntero al inicio de la rutina de servicio a través de una o más tablas de vectores de interrupción.
 
@@ -177,7 +177,7 @@ En interrupciones generadas desde software, el vector se genera automáticamente
 3. Dispositivo externo deposita en el bus de datos el valor del vector de interrupción.
 4. Con este puntero la CPU continúa el procesamiento de la interrupción ejecutando al rutina de servicio correspondiente.
 
-## Gestión de orígenes múltiples: polling
+### Gestión de orígenes múltiples: polling
 
 Si múltiples periféricos pueden generar interrupciones, deben compartir la línea INT. Por esto se necesita un mecanismo de identificación del origen de la interrupción. El mecanismo más sencillo para esto es el **polling**.
 
@@ -199,7 +199,7 @@ Esta figura muestra el mapa del espacio de direcciones de un microcontrolador co
 
 ![[Polling example.png|450]]
 
-## Controlador de interrupciones
+### Controlador de interrupciones
 
 Es un circuito especializado que aplica como gestor de orígenes múltiples de interrupciones. Es el intermediario entre los periféricos y la CPU. El controlador:
 - Prioriza las peticiones y determina si se atienden o no.
@@ -214,7 +214,7 @@ El controlador no es más que una interfase por lo que tiene registros y un mode
 
 ![[Ejemplo controlador de interrupciones.png]]
 
-## MSI (Message Signaled Interrupts)
+### MSI (Message Signaled Interrupts)
 
 Una especificación del estándar del bus PC introdujo una nueva forma de señalizar la necesidad de una interrupción sin el requerimiento de la activación de las líneas de interrupción del procesador:  El MSI = Interrupciones señalizadas por mensaje.
 
@@ -238,7 +238,7 @@ MSI simplifica también el diseño e interfaz de los chipsets. La interrupción 
 
 Todos los ordenadores modernos señalizan sus interrupciones usando solamente MSI.
 
-## Servicio diferido de interrupciones
+### Servicio diferido de interrupciones
 
 La complejidad de los procesadores hace obligatorio deshabilitar las interrupciones durante la rutina de servicio, un problema para las rutinas largas.
 
@@ -246,7 +246,7 @@ Se soluciona si se divide el procesamiento de la interrupción en dos partes.
 
 ![[Servicio diferido de interrupciones.png]]
 
-## E/S por DMA
+### E/S por DMA
 
 PIO enlentece el ordenador porque involucra la CPU en cada movimiento de datos.
 
@@ -260,3 +260,98 @@ El controlador DMA solo da valores a líneas del bus de direcciones y a algunas 
 
 Si se da una transferencia, DMA usa bus de direcciones y bus de datos, entonces la CPU no puede emplearlos durante la transferencia porque supondría un conflicto.
 - La CPU se desconecta físicamente. 
+- No puede leer instrucciones desde memoria.
+- Necesario parar CPU durante la transferencia.
+
+Como se para e procesador esto implica que el bloque no puede ser muy largo. Sin embargo, el movimiento del bloque es más rápido que en PIO porque cada transferencia individual se hace más rápido.
+![[Arquitectura DMA.png]]
+
+La CPU programa la transferencia cargando en registros del controlador DMA la dirección de inicio de transferencia y el número de datos a mover (dirección final).
+
+### Control de acceso al bus: Arbitración
+
+En un mismo ordenador habrá varios dispositivos que le den datos al bus de direcciones y líneas de control:
+- Al menos una CPU.
+- Varios controladores DMA.
+
+Arbitración de bus es el mecanismo de coordinación que determina en cada transferencia cual es el dispositivo que tomará el control de los buses.
+
+#### Arbitración paralela centralizada
+
+Usa un **árbitro de bus** que selecciona qué dispositivo toma el control del bus. Usa para cada posible controlador una pareja independiente de líneas:
+- BR = Bus Request
+- BG = Bus Grant (cesión)
+
+<mark style="background: #FFF3A3A6;">Ventajas:</mark>
+- Sencillo de implementar.
+- Distintos algoritmos para controlar prioridad.
+- No usa el bus de datos para arbitrar.
+<mark style="background: #FFF3A3A6;">Inconvenientes:</mark>
+- Requiere el circuito árbitro de bus en la placa madre.
+- Enrutar líneas de petición y cesión.
+
+![[Arbitración centralizada.png]]
+#### Arbitración distribuida con autoselección
+
+Cada dispositivo tiene su propia circuitería de control de arbitración.
+
+![[Arbitración distribuida con autoselección.png]]
+
+Al inicio de la arbitración el dispositivo que quiera usar el bus pone a 1 la línea que se corresponde con su ID. Si un dispositivo más prioritario solicita el control, los de menos prioridad deben retirar su solicitudes y poner a 0 sus líneas. Quien gana el control pone a 1 BBSY = Bus Busy.
+
+<mark style="background: #FFF3A3A6;">Ventajas:</mark>
+- Reduce el total de líneas (no hay BR, BG).
+- Más fácil sincronizar entre dispositivos de diferentes velocidades.
+<mark style="background: #FFF3A3A6;">Inconvenientes:</mark>
+- La función de control es más compleja que en arbitración centralizada.
+- Necesita usar el bus de datos durante la arbitración, por lo que **las arbitraciones no pueden ser frecuentes o producirá una ineficiencia en el bus de datos.**
+
+### DMA con E/S por buffer (Buffered I/O)
+
+En buffered I/O, las transferencias DMA requieren paso de datos a través de una zona intermedia de memoria (buffer), gestionada por sistema operativo. Las operaciones de E/S con buffer requieren dos pasos:
+- En escritura (Write):
+	1. El SO copia datos de memoria de programa a buffer.
+	2. Transferencia DMA mueve bloque de datos de buffer a periférico.
+- En lectura (Read):
+	1. Transferencia DMA mueve bloque de datos de periférico a buffer.
+	2. SO copia datos de buffer a memoria de programa.
+
+Propósito de buffer es dar a DMA bloque de direcciones contiguas para la transferencia. Permite que driver DMA sea más sencillo de implementar.
+
+### DMA con E/S directa (Direct I/O)
+
+En Direct I/O la transferencia se hace directamente entre memoria principal y periférico. No hay buffer intermedio y por esto es más rápida.
+
+Por esto también requiere más sofisticación en controlador y driver DMA:
+- Debe gestionar una única transferencia con bloques no contiguos de memoria (**scatter-gather**).
+- Controlador DMA necesita una lista de direcciones inicio y longitudes de bloque.
+
+### Implementación DMA en chipsets modernos
+
+En ordenadores modernos no es necesario detener la CPU durante el acceso DMA a memoria. Los chipsets introducen un controlador de memoria intermediario entre DRAM y procesador llamado **Puente norte o North Bridge o Memory Controller Hub (MCH).** Este Puente norte proporciona buses diferenciados para accesos a CPU, memoria y E/S.
+
+El Puente Norte desacopla el acceso a estos tres sitios y permite la operación concurrente de todos estos accesos.
+
+Al ser el bus de acceso a memoria mucho más rápido que los otros permite la multiplexación en el tiempo. A efectos prácticos es como si existieran caminos paralelos simultáneos que permiten la concurrencia.
+
+Ya no se necesita interferir en la operación de la CPU para realizar la transferencia DMA, importante en multiprocesadores.<mark style="background: #BBFABBA6;"> Los MCH también vigilan la coherencia entre caché y memoria principal.</mark>
+
+![[Puente Norte.png]]
+
+## II - Buses e interfaces
+
+Es imprescindible aprender a diferenciar entre bus e interfaz. En el interfaz, el periférico tiene inteligencia para ejecutar comandos recibidos a través de un bus, y devolver por éste el resultado de dicha ejecución.
+
+### Bus
+
+Un bus es un subsistema que interconecta dos o más dispositivos por líneas comunes.
+- La especificación de la señalización física y las líneas que unen subsistemas.
+- La especificación del intercambio de datos por esas líneas, y los mecanismos que monitorizan que funcione correctamente.
+
+**En la definición de un bus no se hace interpretación de los datos transferidos. La temporización, o protocolo de intercambio de señales, nos permite distinguir entre señales de control y de datos pero no se interpreta el contenido de estos.**
+
+![[Interfaz.png]]
+
+El periférico que usa interfaz puede procesar comandos. Su interfase tiene una unidad de control:
+- Un microprocesador simple o microcontrolador avanzado.
+- Un programa en ROM (firmware), con código que ejecutará para implementar comandos.
