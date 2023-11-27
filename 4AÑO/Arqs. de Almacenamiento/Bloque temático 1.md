@@ -393,3 +393,70 @@ Las transacciones de bus tienen:
 
 ### Maestro y esclavo de bus
 
+Una transacción de bus involucra un maestro y un esclavo.
+El **maestro de bus** es el dispositivo con capacidad de iniciar una transacción de bus:
+- Direcciona al dispositivo objetivo, indicándole que actúe como esclavo.
+- Señaliza qué tipo de transacción se va a realizar.
+El **esclavo de bus** es el dispositivo que carece de la capacidad de iniciar transacciones de bus:
+- Espera pasivamente a que sea direccionado.
+
+**Durante una transacción solo puede haber un maestro de bus. El mecanismo de arbitración determinará qué maestro de bus se activará en cada transacción.**
+
+Los controladores DMA y la CPU son maestros de bus.
+
+### Relación entre transacción de bus e interfaz
+
+Las transacciones de bus son realizadas por la capa encargada del transporte de los datos, no de su interpretación. Durante la fase de direccionamiento no se transfiere el comando a la interfaz. Los códigos de operación y parámetros se envían en fases de datos.
+
+### Iniciador y diana
+
+El **iniciador** es el dispositivo capaz de iniciar un comando a nivel de interfaz.
+
+La **diana** es un dispositivo que carece de capacidad de iniciar autónomamente un comando a nivel de interfaz. Sólo puede esperar a que un iniciador le ordene ejecutar un comando y que devuelva el resultado.
+
+No hay una correlación directa entre Iniciador - Maestro de bus y Diana - Esclavo de bus. Independientemente de su papel la diana siempre es pasiva.
+
+En algunas terminologías se confunden estos dos conceptos distintos. En PCI-X se introdujo el <u>requester</u> como iniciador a nivel de interfaz y <u>completer</u> como diana.
+
+### Transferencia en modo ráfaga
+
+La transacción de bus está compuesta mínimamente de una fase de direccionamiento y una única fase de transferencia de datos. 
+
+Las transacciones monofase de datos usan el bus ineficientemente:
+- Las fases de direccionamiento son redundantes y no transportan carga útil. 
+- Hay tiempos muertos entre transacciones.
+
+![[Transferencia monofase.png|700]]
+
+Para mejorar tiempos se usa **transferencias en modo ráfaga** (burst mode).
+
+Hay una única fase de direccionamiento seguida de múltiples fases de datos consecutivas lo que elimina fases de direccionamiento adicionales y redundantes y los tiempos muertos intermedios.
+
+![[Transferencia en modo ráfaga.png|700]]
+
+La transferencia en modo ráfaga suele usarse entre buffers de memoria. Ambos dispositivos deben apuntar a la posición de buffer involucrada en el movimiento e ir incrementando por cada transferencia. El modo ráfaga es esencialmente una variante de DMA.
+
+### Transacciones de bus bloqueantes: eficiencia
+
+Las transacciones de bus son bloqueantes:
+- Sólo existe una única transacción en curso.
+- Una vez empezada una transacción, el bus queda bloqueado. Con el bus bloqueado aunque esté inactivo el bus por falta de datos, no se puede iniciar otra transacción.
+La implementación bloqueante es sencilla pero presenta problemas de eficiencia, sobre todo con el modo ráfaga.
+
+![[Latencias de acceso inicial a datos.png|700]]
+1. <u>Latencias de acceso inicial a datos</u>
+	- El origen de datos tarda en acceder a los datos a transferir y prepararlos en el buffer.
+	- Durante la espera el bus está inactivo.
+
+![[Latencias de procesamiento.png]]
+
+2. <u>Latencias de procesamiento o acceso intermedio a datos</u>
+	- Durante la transacción origen se queda sin datos en buffer y necesita leer físicamente más datos.
+	- Durante la transacción destino necesita detener la transferencia para procesar y continuar.
+	- En ambos casos aparece un tiempo muerto de espera.
+
+![[Monopolización del bus.png]]
+
+1. <u>Monopolización del bus</u>
+	- Problema específico de transacciones bloqueantes con transferencias en modo ráfaga.
+	- Una vez iniciada la transacción, ningún maestro de bus puede comenzar otra hasta que se transfiera el último dato de la ráfaga actual.

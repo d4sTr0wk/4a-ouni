@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "1113588b803eaee5",
@@ -148,8 +149,13 @@
       "command-palette:Abrir paleta de comandos": false
     }
   },
-  "active": "0f8edbfefd6d6cc4",
+  "active": "164a3b5d963c1159",
   "lastOpenFiles": [
+    "Monopolización del bus.png",
+    "Latencias de procesamiento.png",
+    "Latencias de acceso inicial a datos.png",
+    "Transferencia monofase.png",
+    "Transferencia en modo ráfaga.png",
     "Arqs. de Almacenamiento/Imágenes/Transacción de bus.png",
     "Pasted image 20231127085445.png.md",
     "Arqs. de Almacenamiento/Bloque temático 1.md",
@@ -159,12 +165,7 @@
     "Arqs. de Almacenamiento/Imágenes/Arbitración distribuida con autoselección.png",
     "Arqs. de Almacenamiento/Imágenes/Arbitración centralizada.png",
     "Pasted image 20231018020306.png.md",
-    "Pasted Image 20231103170243_351.png",
     "Pasted image 20231018015431.png.md",
-    "Pasted image 20231104125240.png",
-    "Pasted Image 20231104230821_171.png",
-    "Pasted Image 20231104230825_106.png",
-    "Pasted image 20231104232900.png",
     "Excalidraw/alm"
   ]
 }
