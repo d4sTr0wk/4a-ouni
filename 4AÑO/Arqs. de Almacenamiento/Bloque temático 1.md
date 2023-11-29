@@ -1,17 +1,9 @@
-
-*En este bloque usaremos las transparencias:*
-[Texto](file:\\\C:\Users\Máximo\Desktop\obsidian_srcs\Bloque-tematico-1.pdf)
-
 # Índice:
 - [Tema I: Organización de la E/S](#tema1)
 - [Tema II: Análisis y evolución del bus PCI](#tema2)
 
 # Tema I: Organización de la E/S
 #tema1
-
-![[Pasted image 20231018015431.png|700]]
-![[Pasted image 20231018020306.png|700]]
-
 ## I - Estructura de la E/S
 
 ![[Estructura de E-S.png|700]]
@@ -583,3 +575,18 @@ Se usa un *strobe* para delimitar el intervalo de tiempo durante el que los valo
 <mark style="background: #FFF3A3A6;">Inconvenientes:</mark>
 - Implementación más compleja.
 - En bidireccionales, la necesidad de esperar ACK reduce la capacidad del bus.
+
+# Tema II: Análisis y evolución del bus PCI
+
+## I - Bus PCI: Introducción
+
+Aparece a finales de los 80 para solucionar la limitación de rendimiento de la E/S de la arquitectura del PC. La arquitectura dominante era la ISA. Arquitectura basada en un bus local CPU-Memoria, más un bus ISA (AT) para E/S.
+
+![[Arquitectura ISA.png|700]]
+
+La capacidad del bus de expansión muy limitada a 24 bits de direcciones, 16 bits de datos, bus síncrono y no soporta modo ráfaga.
+
+La velocidad máxima de transferencia ISA es 8.33MBytes/s.
+
+
+

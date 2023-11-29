@@ -11,15 +11,36 @@
             "id": "1b1d641f36876f18",
             "type": "leaf",
             "state": {
+              "type": "image",
+              "state": {
+                "file": "Arqs. de Almacenamiento/Imágenes/Ejemplo bus síncrono.png"
+              }
+            }
+          },
+          {
+            "id": "c5a03c127a409639",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "Arqs. de Almacenamiento/Imágenes/Ciclos de espera.png"
+              }
+            }
+          },
+          {
+            "id": "27b090646624888b",
+            "type": "leaf",
+            "state": {
               "type": "markdown",
               "state": {
                 "file": "Arqs. de Almacenamiento/Bloque temático 1.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -69,8 +90,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "1113588b803eaee5",
@@ -135,8 +155,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -149,22 +168,22 @@
       "command-palette:Abrir paleta de comandos": false
     }
   },
-  "active": "1b1d641f36876f18",
+  "active": "27b090646624888b",
   "lastOpenFiles": [
-    "Ejemplo handshaking asíncrono.png",
-    "Handshaking asíncrono bidireccional.png",
-    "Secuencia bus asíncrono.png",
-    "Señalización bidireccional.png",
-    "Strobe.png",
-    "Ciclos de espera.png",
-    "Ejemplo bus síncrono.png",
-    "Arqs. de Almacenamiento/Imágenes/Transferencia en modo ráfaga.png",
-    "Arqs. de Almacenamiento/Imágenes/Bus local.png",
-    "DNI.jpeg",
-    "Arqs. de Almacenamiento/Imágenes/Ejemplo transacciones divididas.png",
-    "Arqs. de Almacenamiento/Bloque temático 1.md",
-    "Pasted image 20231127085445.png.md",
+    "Arqs. de Almacenamiento/Parcial Bloque 1.md",
     "Pasted image 20231018020306.png.md",
+    "Pasted image 20231104125240.png",
+    "Pasted Image 20231103170243_351.png",
+    "Arqs. de Almacenamiento/Imágenes/Ejemplo bus síncrono.png",
+    "Arqs. de Almacenamiento/Imágenes/Arquitectura ISA.png",
+    "Arqs. de Almacenamiento/Imágenes/Ciclos de espera.png",
+    "Arqs. de Almacenamiento/Imágenes/Figura1.png",
+    "Arqs. de Almacenamiento/Bloque temático 1.md",
+    "Arqs. de Almacenamiento/Imágenes/Ejemplo handshaking asíncrono.png",
+    "Arqs. de Almacenamiento/Imágenes/Handshaking asíncrono bidireccional.png",
+    "Arqs. de Almacenamiento/Imágenes/Secuencia bus asíncrono.png",
+    "Arqs. de Almacenamiento/Imágenes/Señalización bidireccional.png",
+    "Pasted image 20231127085445.png.md",
     "Pasted image 20231018015431.png.md",
     "Excalidraw/alm"
   ]
