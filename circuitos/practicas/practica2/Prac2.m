@@ -29,7 +29,7 @@ magnitud = abs (senal_fft);
 % Vector con las muestras
 ejex = linspace (0, Fs-(Fs/longitud),longitud);
 % Representación gráfica de lo que se pide
-figure (1); subplot(2,1,1); plot(t, ECG_sin_DC); grid;
+figure (1); subplot(2,1,1); plot(t, ECG_sin_DC); grid();
 title ('Señal ECG en función del tiempo, sin DC y en mV');
 xlabel ('Tiempo (s)'); ylabel ('ECG en mV');
 figure (1); subplot (2,1,2); plot (ejex(1:(longitud/2)+1), magnitud(1:(longitud/2)+1)); grid;
@@ -173,7 +173,7 @@ figure (8); subplot (2,1,1); plot (t, ECG_filtrado3); grid();
 title ('ECG filtrado 3 en base al tiempo');
 xlabel ('Tiempo (s)');
 ylabel ('ECG Filtrado\_3 en mV');
-figure (8); subplot (2,1,2);plot (ejex(1:(longitud/9)+1), magnitud(1:(longitud/9)+1)); grid();
+figure (8); subplot (2,1,2);plot (ejex(1:(longitud/2)+1), magnitud(1:(longitud/2)+1)); grid();
 title ('EGC filtrado 3 en base a frecuencia');
 xlabel ('Tiempo (s)');
 ylabel ('Magnitud');
