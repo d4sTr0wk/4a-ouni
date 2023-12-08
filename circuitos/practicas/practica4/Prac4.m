@@ -35,7 +35,7 @@ longitud = length (ECG_1);
 % Creamos el intervalo de representación de la señal, en muestras
 m = 0:(longitud-1);
 % Frecuencia de muestreo, 500 Hz por defecto
-Fs = 35;
+Fs = 500;
 % Resolución de la señal (periodo de muestreo), inversa de la frecuencia
 Ts = 1 / Fs;
 % Definimos el intervalo de tiempo de representación de la señal del ECG
@@ -85,12 +85,11 @@ title('ECG sin OFFSET'); ylabel('ECG_1'); xlabel('Tiempo');
 
 % Figura 2, subplot 2
 % Dibujamos la magnitud en frecuencia del ECG sin DC, pero sólo entre 0 y 35 Hz
-Fs = 35;
-ejex_frecuencia = linspace(0,Fs-(Fs/longitud),longitud);
+Fs_aux = 35;
+ejex_frecuencia = linspace(0,Fs_aux-(Fs_aux/longitud),longitud);
 figure(2); subplot(2,1,2); plot(ejex_frecuencia(1:(longitud/2)+1), ejey_magnitud(1:(longitud/2)+1));
 title('Análisis FFT'); xlabel('Frecuencia'); ylabel('Magnitud');
 
-%%
 
 % 5.- Aplicar un filtro pasa-bajos a la señal del ECG (H1)
 % --------------------------------------------------------
@@ -100,46 +99,34 @@ title('Análisis FFT'); xlabel('Frecuencia'); ylabel('Magnitud');
 % que será de 0 a 2*pi espaciados "2*pi/longitud"
 w = 0:2*pi/longitud:2*pi-(2*pi/longitud);
 % Definimos el filtro pasa-bajos para una Fs = 500 Hz (modificado respecto al Pan-Tompkins).
-H1 = ...
-% ------------------------
-% A RELLENAR POR EL ALUMNO
-% ------------------------
+
+H1 = ((1-exp((-15)*i*w)).^2) / ((1-exp((-1)*i*w)).^2)
 
 % Normalizamos el filtro, buscando el valor máximo del módulo (importante)
 % Obtenemos un valor real por el que dividimos todo el filtro
-% ------------------------
-% A RELLENAR POR EL ALUMNO
-% ------------------------
+
+[H1_maxvalue,plot] = max(abs(H1));
+H1_realvalue = H1 ./ H1_maxvalue;
 
 % El valor del filtro en la frecuencia 0 es infinito,
 % pero debería tener ganancia 1
 % (al ser un filtro pasa-bajos)
-% ------------------------
-% A RELLENAR POR EL ALUMNO
-% ------------------------
+
 
 % Multiplicamos en frecuencia dato a dato
-% ------------------------
-% A RELLENAR POR EL ALUMNO
-% ------------------------
+
 
 % Calculamos FFT inversa.
-% ------------------------
-% A RELLENAR POR EL ALUMNO
-% ------------------------
+
 
 % Figura 3, subplot 2
 % Representamos gráficamente la señal de la FFT filtrada pasa-bajos
-% ------------------------
-% A RELLENAR POR EL ALUMNO
-% ------------------------
 
 % Figura 3, subplot 1
 % Representamos gráficamente la señal en el tiempo
-% ------------------------
-% A RELLENAR POR EL ALUMNO
-% ------------------------
 
+
+%%
 
 % 6.- Aplicar un filtro pasa-altos a la señal del ECG (H3)
 % --------------------------------------------------------
